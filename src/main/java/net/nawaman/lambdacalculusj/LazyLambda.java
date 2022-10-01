@@ -16,7 +16,7 @@ public class LazyLambda implements Lambda {
     
     @Override
     public Lambda apply(Lambda subInput) {
-        return lambda
+        return evaluate()
                 .apply(subInput);
     }
     
