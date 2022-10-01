@@ -54,7 +54,11 @@ class LazyLambdaTest {
         assertAsString("[]", logs);
         
         assertAsString("parameter2", lazyLambda.apply(parameter2));
-        assertAsString("[apply(parameter2)]", logs);
+        assertAsString("["
+                        + "evaluate(): 0, "
+                        + "apply(parameter1), "
+                        + "parameter1(parameter2)"
+                        + "]", logs);
     }
     
     @Test
