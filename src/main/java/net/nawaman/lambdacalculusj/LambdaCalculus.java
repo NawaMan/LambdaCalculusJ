@@ -34,22 +34,20 @@ public class LambdaCalculus {
     //== Applying ==
     
     public static Lambda $(Lambda lambda, Lambda ... inputs) {
-        var stringValue = lambda.toString();
-        
         if (inputs.length == 0) {
             return lambda;
         }
         
         if (inputs.length == 1) {
             var input = inputs[0];
-            return new LazyLambda(stringValue, lambda, input);
+            return new LazyLambda(lambda, input);
         }
         
         var firstInput = inputs[0];
         var restInputs = new Lambda[inputs.length - 1];
         System.arraycopy(inputs, 1, restInputs, 0, restInputs.length);
         
-        var newLambda = new LazyLambda(stringValue, lambda, firstInput);
+        var newLambda = new LazyLambda(lambda, firstInput);
         return $(newLambda, restInputs);
     }
     
