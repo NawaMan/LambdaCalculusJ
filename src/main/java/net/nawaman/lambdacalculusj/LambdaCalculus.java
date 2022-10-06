@@ -1,6 +1,7 @@
 package net.nawaman.lambdacalculusj;
 
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 public class LambdaCalculus {
     
@@ -52,6 +53,10 @@ public class LambdaCalculus {
     }
     
     //== Displaying ==
+    
+    public static String format(String template, Lambda ... values) {
+        return String.format(template, Stream.of(values).map(LambdaCalculus::displayValue).toArray());
+    }
     
     public static String displayValue(Lambda value) {
         var valueString = (String)null;

@@ -1,7 +1,7 @@
 package net.nawaman.lambdacalculusj.examples;
 
 import static net.nawaman.lambdacalculusj.LambdaCalculus.$;
-import static net.nawaman.lambdacalculusj.LambdaCalculus.displayValue;
+import static net.nawaman.lambdacalculusj.LambdaCalculus.format;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.lambda;
 import static net.nawaman.lambdacalculusj.TestHelper.assertAsString;
 
@@ -346,7 +346,7 @@ public class ArithmeticExamples {
     void testPredecessor() {
         var zero        = lambda("0", lambda(f -> a -> a, () -> 0));
         var successor   = lambda("successor", n -> lambda(f -> a -> $(f, $(n, f, a)), () -> n.intValue() + 1));
-        var pair        = lambda("pair",   a -> b -> lambda("Pair[" + displayValue(a) + "," + displayValue(b) + "]", f -> $(f,a,b)));
+        var pair        = lambda("pair",   a -> b -> lambda(format("Pair[%s,%s]", a, b), f -> $(f,a,b)));
         var first       = lambda("first",  p -> $(p, lambda(a -> b -> a)));
         var second      = lambda("second", p -> $(p, lambda(a -> b -> b)));
         var transform   = lambda("trans",  p -> $(pair,  $(second, p), $(successor, $(second, p))));
@@ -361,7 +361,7 @@ public class ArithmeticExamples {
     void testSubtract() {
         var zero        = lambda("0",           lambda(f -> a -> a, () -> 0));
         var succ        = lambda("succ",        n -> lambda(f -> a -> $(f, $(n, f, a)), () -> n.intValue() + 1));
-        var pairOf      = lambda("pairOf",      a -> b -> lambda("Pair[" + displayValue(a) + "," + displayValue(b) + "]", f -> $(f,a,b)));
+        var pairOf      = lambda("pairOf",      a -> b -> lambda(format("Pair[%s,%s]", a, b), f -> $(f,a,b)));
         var first       = lambda("first",       p -> $(p, lambda(a -> b -> a)));
         var second      = lambda("second",      p -> $(p, lambda(a -> b -> b)));
         var transform   = lambda("transform",   p -> $(pairOf, $(second, p), $(succ, $(second, p))));
@@ -385,7 +385,7 @@ public class ArithmeticExamples {
         
         var zero        = lambda("0",           lambda(f -> a -> a, () -> 0));
         var succ        = lambda("succ",        n -> lambda(f -> a -> $(f, $(n, f, a)), () -> n.intValue() + 1));
-        var pairOf      = lambda("pairOf",      a -> b -> lambda("Pair[" + displayValue(a) + "," + displayValue(b) + "]", f -> $(f,a,b)));
+        var pairOf      = lambda("pairOf",      a -> b -> lambda(format("Pair[%s,%s]", a, b), f -> $(f,a,b)));
         var first       = lambda("first",       p -> $(p, lambda(a -> b -> a)));
         var second      = lambda("second",      p -> $(p, lambda(a -> b -> b)));
         var transform   = lambda("transform",   p -> $(pairOf, $(second, p), $(succ, $(second, p))));

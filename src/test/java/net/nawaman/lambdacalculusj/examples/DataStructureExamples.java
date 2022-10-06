@@ -1,7 +1,7 @@
 package net.nawaman.lambdacalculusj.examples;
 
 import static net.nawaman.lambdacalculusj.LambdaCalculus.$;
-import static net.nawaman.lambdacalculusj.LambdaCalculus.displayValue;
+import static net.nawaman.lambdacalculusj.LambdaCalculus.format;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.lambda;
 import static net.nawaman.lambdacalculusj.TestHelper.assertAsString;
 
@@ -16,7 +16,7 @@ class DataStructureExamples {
     
     @Test
     void testValue() {
-        var makeValue = lambda("value", x     -> lambda("value(" + displayValue(x) + ")", f -> $(f, x)));
+        var makeValue = lambda("value", x     -> lambda(format("Value[%s]", x), f -> $(f, x)));
         var readValue = lambda("read",  value -> $(value, x -> x));
         
         var value = $(makeValue, a);
@@ -31,18 +31,18 @@ class DataStructureExamples {
         var FALSE = lambda("FALSE", x -> y -> y);
         var not   = lambda("not", bool -> $(bool, FALSE, TRUE));
         
-        var makeValue = lambda("value", x     -> lambda("value(" + displayValue(x) + ")", f -> $(f, x)));
+        var makeValue = lambda("value", x     -> lambda(format("Value[%s]", x), f -> $(f, x)));
         var readValue = lambda("read",  value -> $(value, x -> x));
-        var mapValue  = lambda("map", v -> f -> $(makeValue, $(f, $(readValue, v))));
+        var mapValue  = lambda("map",   value -> f -> $(makeValue, $(f, $(readValue, value))));
         
         var value = $(makeValue, TRUE);
         assertAsString("value(TRUE)",  value);
-        assertAsString("value(FALSE)", $(mapValue, value, not).evaluate());
+        assertAsString("Value[FALSE]", $(mapValue, value, not).evaluate());
     }
     
     @Test
     void testPair() {
-        var makePair = lambda("pair",     a -> b -> lambda("Pair[" + displayValue(a) + "," + displayValue(b) + "]", f -> $(f,a,b)));
+        var makePair = lambda("pair",     a -> b -> lambda(format("Pair[%s,%s]", a, b), f -> $(f,a,b)));
         var firstOf  = lambda("firstOf",  p -> $(p, lambda(a -> b -> a)));
         var secondOf = lambda("secondOf", p -> $(p, lambda(a -> b -> b)));
         
@@ -63,7 +63,7 @@ class DataStructureExamples {
     void testList() {
         var TRUE     = lambda("TRUE",  x -> y -> x);
         var FALSE    = lambda("FALSE", x -> y -> y);
-        var makePair = lambda("pair",  a -> b -> lambda("Pair[" + displayValue(a) + "," + displayValue(b) + "]", f -> $(f,a,b)));
+        var makePair = lambda("pair",  a -> b -> lambda(format("Pair[%s,%s]", a, b), f -> $(f,a,b)));
         var NIL      = lambda("NIL",   x -> TRUE);
         
         assertAsString("NIL", NIL.evaluate());
