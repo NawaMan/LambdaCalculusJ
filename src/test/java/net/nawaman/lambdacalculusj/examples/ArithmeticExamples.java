@@ -1,4 +1,4 @@
-package net.nawaman.lambdacalculusj;
+package net.nawaman.lambdacalculusj.examples;
 
 import static net.nawaman.lambdacalculusj.LambdaCalculus.$;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.displayValue;
@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+
+import net.nawaman.lambdacalculusj.Lambda;
 
 public class ArithmeticExamples {
     
