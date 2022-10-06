@@ -28,13 +28,16 @@ public class LambdaCalculus {
     private static final Lambda TRUE  = lambda("true",  x -> y -> x);
     private static final Lambda FALSE = lambda("false", x -> y -> y);
     
-    public static Lambda lambda(boolean booValue) {
-        return booValue ? TRUE : FALSE;
+    public static Lambda lambda(boolean booleanValue) {
+        return booleanValue ? TRUE : FALSE;
     }
     
     //== Applying ==
     
     public static Lambda $(Lambda lambda, Lambda ... inputs) {
+        return lambda(lambda, inputs);
+    }
+    public static Lambda lambda(Lambda lambda, Lambda ... inputs) {
         if (inputs.length == 0) {
             return lambda;
         }
