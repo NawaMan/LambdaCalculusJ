@@ -68,8 +68,8 @@ class DataStructureExamples {
         
         assertAsString("NIL", NIL.evaluate());
         
-        var makeList = lambda("makeList", value -> $(newPair, value, NIL));
-        var list1    = $(makeList, lambda(1));
+        var newList = lambda("newList", element -> $(newPair, element, NIL));
+        var list1   = $(newList, lambda(1));
         assertAsString("Pair[1,NIL]", list1.evaluate());
         
         var concat = lambda("concat",   value -> list -> $(newPair, value, list));

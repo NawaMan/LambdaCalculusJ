@@ -37,10 +37,10 @@ class RecursiveExamples {
     private final Lambda subtract    = lambda("subtract",    n -> k -> $($(k, predecessor), n));
     private final Lambda lessOrEqual = lambda("lessOrEqual", n -> m -> $(isZero, $(subtract, n, m)));
     
-    private final Lambda NIL     = lambda("NIL",   x -> TRUE);
-    private final Lambda newList = lambda("makeList", value -> $(newPair, value, NIL));
-    private final Lambda concat  = lambda("concat",   value -> list -> $(newPair, value, list));
-    private final Lambda headOf  = lambda("headOf",   list -> $(list, lambda(a -> b -> a)));
+    private final Lambda NIL     = lambda("NIL",     x       -> TRUE);
+    private final Lambda newList = lambda("newList", element -> $(newPair, element, NIL));
+    private final Lambda concat  = lambda("concat",  element -> list -> $(newPair, element, list));
+    private final Lambda headOf  = lambda("headOf",  list    -> $(list, lambda(a -> b -> a)));
     
     @Test
     void testFactorial() {
@@ -67,6 +67,12 @@ class RecursiveExamples {
     }
     
     @Test
+    void testFactorial_dynamicProgramming() {
+        var starter = $(newList, one);
+        show("starter", starter);
+    }
+    
+    @Test
     void testFibonacci() {
         var yCombinator = lambda("Y", g -> $(lambda("Y'", x -> $(g, $(x, x))), lambda("Y''", x -> $(g, $(x, x)))));
         var fibonacci   = $(yCombinator, lambda(r -> n -> $($(lessOrEqual, n, two), one, $(add, $(r, $(predecessor, n)), $(r, $(predecessor, $(predecessor, n)))))));
@@ -77,7 +83,6 @@ class RecursiveExamples {
         assertAsString("5",  $(fibonacci, five) .evaluate());
         assertAsString("8",  $(fibonacci, lambda(6)).evaluate());
         assertAsString("13", $(fibonacci, lambda(7)).evaluate());
-        assertAsString("21", $(fibonacci, lambda(8)).evaluate());
     }
     
 }
