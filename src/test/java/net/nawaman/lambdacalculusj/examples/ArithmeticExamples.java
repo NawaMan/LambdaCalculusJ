@@ -345,12 +345,12 @@ public class ArithmeticExamples {
     @Test
     void testPredecessor() {
         var zero        = lambda("0", lambda(f -> a -> a, () -> 0));
-        var successor   = lambda("successor", n -> lambda(f -> a -> $(f, $(n, f, a)), () -> n.intValue() + 1));
-        var pair        = lambda("pair",   a -> b -> lambda(format("Pair[%s,%s]", a, b), f -> $(f,a,b)));
-        var first       = lambda("first",  p -> $(p, lambda(a -> b -> a)));
-        var second      = lambda("second", p -> $(p, lambda(a -> b -> b)));
-        var transform   = lambda("trans",  p -> $(pair,  $(second, p), $(successor, $(second, p))));
-        var predecessor = lambda("pred",   n -> $(first, $($(n, transform), $(pair, zero, zero))));
+        var successor   = lambda("successor",   n -> lambda(f -> a -> $(f, $(n, f, a)), () -> n.intValue() + 1));
+        var newPair     = lambda("newPair",     a -> b -> lambda(format("Pair[%s,%s]", a, b), f -> $(f,a,b)));
+        var firstOf     = lambda("firstOf",     p -> $(p, lambda(a -> b -> a)));
+        var secondOf    = lambda("secondOf",    p -> $(p, lambda(a -> b -> b)));
+        var transform   = lambda("transform",   p -> $(newPair,  $(secondOf, p), $(successor, $(secondOf, p))));
+        var predecessor = lambda("predecessor", n -> $(firstOf, $($(n, transform), $(newPair, zero, zero))));
         
         assertAsString("0", $(predecessor, zero)     .evaluate());
         assertAsString("0", $(predecessor, lambda(1)).evaluate());

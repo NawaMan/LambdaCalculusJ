@@ -3,6 +3,7 @@ package net.nawaman.lambdacalculusj.examples;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.$;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.format;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.lambda;
+import static net.nawaman.lambdacalculusj.LambdaCalculus.show;
 import static net.nawaman.lambdacalculusj.TestHelper.assertAsString;
 
 import org.junit.jupiter.api.Test;
@@ -26,15 +27,20 @@ class RecursiveExamples {
     private final Lambda falseOrElse = $(lambda(a -> b -> a), FALSE);
     private final Lambda isZero      = lambda("isZero", n -> $(n, falseOrElse, TRUE));
     
-    private final Lambda pair        = lambda("pair",   a -> b -> lambda(format("Pair[%s,%s]", a, b), f -> $(f,a,b)));
-    private final Lambda first       = lambda("first",  p -> $(p, lambda(a -> b -> a)));
-    private final Lambda second      = lambda("second", p -> $(p, lambda(a -> b -> b)));
-    private final Lambda transform   = lambda("trans",  p -> $(pair,  $(second, p), $(successor, $(second, p))));
-    private final Lambda predecessor = lambda("pred",   n -> $(first, $($(n, transform), $(pair, zero, zero))));
+    private final Lambda newPair     = lambda("newPair",     a -> b -> lambda(format("Pair[%s,%s]", a, b), f -> $(f,a,b)));
+    private final Lambda firstOf     = lambda("firstOf",     p -> $(p, lambda(a -> b -> a)));
+    private final Lambda secondOf    = lambda("secondOf",    p -> $(p, lambda(a -> b -> b)));
+    private final Lambda transform   = lambda("transform",   p -> $(newPair,  $(secondOf, p), $(successor, $(secondOf, p))));
+    private final Lambda predecessor = lambda("predecessor", n -> $(firstOf, $($(n, transform), $(newPair, zero, zero))));
     
     private final Lambda add         = lambda("add",       n -> m -> $($(n, successor), m));
     private final Lambda subtract    = lambda("subtract",    n -> k -> $($(k, predecessor), n));
     private final Lambda lessOrEqual = lambda("lessOrEqual", n -> m -> $(isZero, $(subtract, n, m)));
+    
+    private final Lambda NIL     = lambda("NIL",   x -> TRUE);
+    private final Lambda newList = lambda("makeList", value -> $(newPair, value, NIL));
+    private final Lambda concat  = lambda("concat",   value -> list -> $(newPair, value, list));
+    private final Lambda headOf  = lambda("headOf",   list -> $(list, lambda(a -> b -> a)));
     
     @Test
     void testFactorial() {

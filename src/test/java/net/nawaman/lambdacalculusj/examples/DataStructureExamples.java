@@ -42,18 +42,18 @@ class DataStructureExamples {
     
     @Test
     void testPair() {
-        var makePair = lambda("pair",     a -> b -> lambda(format("Pair[%s,%s]", a, b), f -> $(f,a,b)));
+        var newPair  = lambda("newPair",     a -> b -> lambda(format("Pair[%s,%s]", a, b), f -> $(f,a,b)));
         var firstOf  = lambda("firstOf",  p -> $(p, lambda(a -> b -> a)));
         var secondOf = lambda("secondOf", p -> $(p, lambda(a -> b -> b)));
         
-        var pair = $(makePair, a, b);
-        assertAsString("pair(a)(b)", pair);
-        assertAsString("Pair[a,b]",  pair.evaluate());
-        assertAsString("a",          $(firstOf,  pair).evaluate());
-        assertAsString("b",          $(secondOf, pair).evaluate());
+        var pair = $(newPair, a, b);
+        assertAsString("newPair(a)(b)", pair);
+        assertAsString("Pair[a,b]",     pair.evaluate());
+        assertAsString("a",             $(firstOf,  pair).evaluate());
+        assertAsString("b",             $(secondOf, pair).evaluate());
         
-        var setFirst  = lambda("setFirst",  p -> x -> $(makePair, x, $(secondOf, p)));
-        var setSecond = lambda("setSecond", p -> x -> $(makePair, $(firstOf, p), x));
+        var setFirst  = lambda("setFirst",  p -> x -> $(newPair, x, $(secondOf, p)));
+        var setSecond = lambda("setSecond", p -> x -> $(newPair, $(firstOf, p), x));
         
         assertAsString("Pair[b,b]", $(setFirst,  pair, b).evaluate());
         assertAsString("Pair[a,a]", $(setSecond, pair, a).evaluate());
@@ -61,18 +61,18 @@ class DataStructureExamples {
     
     @Test
     void testList() {
-        var TRUE     = lambda("TRUE",  x -> y -> x);
-        var FALSE    = lambda("FALSE", x -> y -> y);
-        var makePair = lambda("pair",  a -> b -> lambda(format("Pair[%s,%s]", a, b), f -> $(f,a,b)));
-        var NIL      = lambda("NIL",   x -> TRUE);
+        var TRUE    = lambda("TRUE",    x -> y -> x);
+        var FALSE   = lambda("FALSE",   x -> y -> y);
+        var newPair = lambda("newPair", a -> b -> lambda(format("Pair[%s,%s]", a, b), f -> $(f,a,b)));
+        var NIL     = lambda("NIL",     x -> TRUE);
         
         assertAsString("NIL", NIL.evaluate());
         
-        var makeList = lambda("makeList", value -> $(makePair, value, NIL));
+        var makeList = lambda("makeList", value -> $(newPair, value, NIL));
         var list1    = $(makeList, lambda(1));
         assertAsString("Pair[1,NIL]", list1.evaluate());
         
-        var concat = lambda("concat",   value -> list -> $(makePair, value, list));
+        var concat = lambda("concat",   value -> list -> $(newPair, value, list));
         var list2  = $(concat, lambda(2), list1);
         assertAsString("Pair[2,Pair[1,NIL]]", list2.evaluate());
         
