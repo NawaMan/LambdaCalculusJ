@@ -43,6 +43,16 @@ class LoopExamples {
     
     @Test
     void testFibonacci_loop() {
+        // i: 0, 1, 2, 3, 4, 5, 6,  7,  8
+        // f: 1, 1, 1, 2, 3, 5, 8, 13, 21
+        // 0: 0, 1
+        // 1:    1, 1
+        // 2:      1, 2
+        // 3:         2, 3
+        // 4:            3, 5
+        // 5:               5, 8
+        // 6:                  8, 13
+        // 7:                     13, 21
         var start     = $(newPair, zero, one);
         var each      = lambda(p -> $(newPair, $(secondOf, p), $(add, $(firstOf, p), $(secondOf, p))));
         var fibonacci = lambda(n -> $(firstOf, $($(n, each), start)));
@@ -55,17 +65,6 @@ class LoopExamples {
         assertAsString("13", $(fibonacci, lambda(7)).evaluate());
         assertAsString("21", $(fibonacci, lambda(8)).evaluate());
         assertAsString("34", $(fibonacci, lambda(9)).evaluate());
-        // i: 0, 1, 2, 3, 4, 5, 6,  7,  8
-        // f: 1, 1, 1, 2, 3, 5, 8, 13, 21
-        // 0: 0, 1
-        // 1:    1, 1
-        // 2:      1, 2
-        // 3:         2, 3
-        // 4:            3, 5
-        // 5:               5, 8
-        // 6:                  8, 13
-        // 7:                     13, 21
-        
     }
     
 }
