@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import net.nawaman.lambdacalculusj.Lambda;
 
-class RecursiveExamples {
+class LoopExamples {
     
     private final Lambda zero  = lambda("0", lambda(f -> a -> a,                               () -> 0));
     private final Lambda one   = lambda("1", lambda(f -> a -> $(f, a),                         () -> 1));
@@ -18,31 +18,22 @@ class RecursiveExamples {
     private final Lambda four  = lambda("4", lambda(f -> a -> $(f, $(f, $(f, $(f, a)))),       () -> 4));
     private final Lambda five  = lambda("5", lambda(f -> a -> $(f, $(f, $(f, $(f, $(f, a))))), () -> 5));
     
-    private final Lambda TRUE  = lambda("TRUE",  x -> y -> x);
-    private final Lambda FALSE = lambda("FALSE", x -> y -> y);
-    
     private final Lambda successor   = lambda("successor", n -> lambda(f -> a -> $(f, $(n, f, a)), () -> n.intValue() + 1));
     private final Lambda multiply    = lambda("mul", m -> n -> $(m, $(n, successor), zero));
-    private final Lambda falseOrElse = $(lambda(a -> b -> a), FALSE);
-    private final Lambda isZero      = lambda("isZero", n -> $(n, falseOrElse, TRUE));
     
     private final Lambda newPair     = lambda("newPair",     a -> b -> lambda(format("Pair[%s,%s]", a, b), f -> $(f,a,b)));
     private final Lambda firstOf     = lambda("firstOf",     p -> $(p, lambda(a -> b -> a)));
     private final Lambda secondOf    = lambda("secondOf",    p -> $(p, lambda(a -> b -> b)));
-    private final Lambda transform   = lambda("transform",   p -> $(newPair,  $(secondOf, p), $(successor, $(secondOf, p))));
-    private final Lambda predecessor = lambda("predecessor", n -> $(firstOf, $($(n, transform), $(newPair, zero, zero))));
     
-    private final Lambda add         = lambda("add",       n -> m -> $($(n, successor), m));
-    private final Lambda subtract    = lambda("subtract",    n -> k -> $($(k, predecessor), n));
-    private final Lambda lessOrEqual = lambda("lessOrEqual", n -> m -> $(isZero, $(subtract, n, m)));
+    private final Lambda add = lambda("add",       n -> m -> $($(n, successor), m));
     
     
     @Test
-    void testFactorial() {
-        var almostFactorial = lambda("almostFactorial", f -> n -> {
-            return $($(isZero, n), one, $(multiply, n, $(f, f, $(predecessor, n))));
-        });
-        var factorial = $(almostFactorial, almostFactorial);
+    void testFactorial_loop() {
+        var start     = $(newPair, lambda(0), lambda(1));
+        var next      = lambda(p -> n -> $(newPair, n, $(multiply, n, $(secondOf, p))));
+        var each      = lambda(p -> $(next, p, $(successor, $(firstOf, p))));
+        var factorial = lambda(n -> $(secondOf, $($(n, each), start)));
         assertAsString("1",  $(factorial, zero) .evaluate());
         assertAsString("1",  $(factorial, one)  .evaluate());
         assertAsString("2",  $(factorial, two)  .evaluate());
@@ -51,20 +42,10 @@ class RecursiveExamples {
     }
     
     @Test
-    void testFactorial_yCombinator() {
-        var yCombinator = lambda("Y", g -> $(lambda("Y'", x -> $(g, $(x, x))), lambda("Y''", x -> $(g, $(x, x)))));
-        var factorial   = $(yCombinator, r -> n -> $($(isZero, n), one, $(multiply, n, $(r, $(predecessor, n)))));
-        assertAsString("1",  $(factorial, zero) .evaluate());
-        assertAsString("1",  $(factorial, one)  .evaluate());
-        assertAsString("2",  $(factorial, two)  .evaluate());
-        assertAsString("6",  $(factorial, three).evaluate());
-        assertAsString("24", $(factorial, four) .evaluate());
-    }
-    
-    @Test
-    void testFibonacci() {
-        var yCombinator = lambda("Y", g -> $(lambda("Y'", x -> $(g, $(x, x))), lambda("Y''", x -> $(g, $(x, x)))));
-        var fibonacci   = $(yCombinator, lambda(r -> n -> $($(lessOrEqual, n, two), one, $(add, $(r, $(predecessor, n)), $(r, $(predecessor, $(predecessor, n)))))));
+    void testFibonacci_loop() {
+        var start     = $(newPair, zero, one);
+        var each      = lambda(p -> $(newPair, $(secondOf, p), $(add, $(firstOf, p), $(secondOf, p))));
+        var fibonacci = lambda(n -> $(firstOf, $($(n, each), start)));
         assertAsString("1",  $(fibonacci, one)  .evaluate());
         assertAsString("1",  $(fibonacci, two)  .evaluate());
         assertAsString("2",  $(fibonacci, three).evaluate());
@@ -72,6 +53,19 @@ class RecursiveExamples {
         assertAsString("5",  $(fibonacci, five) .evaluate());
         assertAsString("8",  $(fibonacci, lambda(6)).evaluate());
         assertAsString("13", $(fibonacci, lambda(7)).evaluate());
+        assertAsString("21", $(fibonacci, lambda(8)).evaluate());
+        assertAsString("34", $(fibonacci, lambda(9)).evaluate());
+        // i: 0, 1, 2, 3, 4, 5, 6,  7,  8
+        // f: 1, 1, 1, 2, 3, 5, 8, 13, 21
+        // 0: 0, 1
+        // 1:    1, 1
+        // 2:      1, 2
+        // 3:         2, 3
+        // 4:            3, 5
+        // 5:               5, 8
+        // 6:                  8, 13
+        // 7:                     13, 21
+        
     }
     
 }
