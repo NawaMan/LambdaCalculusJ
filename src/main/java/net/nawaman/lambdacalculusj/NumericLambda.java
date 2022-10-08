@@ -5,6 +5,9 @@ import static net.nawaman.lambdacalculusj.LambdaCalculus.lambda;
 
 import java.util.function.Supplier;
 
+/**
+ * This implementation of Lambda aims to represent an integer.
+ */
 public class NumericLambda extends LambdaWrapper {
     
     private final Supplier<Integer> intValue;
