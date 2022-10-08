@@ -69,18 +69,29 @@ public class LambdaCalculus {
     //== Applying ==
     
     /**
-     * Create a lambda by applying the inputs to the given lambda lazily.
+     * Create a lambda by applying the inputs to the given lambda eagerly.
      * 
      * @param  lambda  the lambda.
      * @param  inputs  the inputs.
      * @return         the result lambda.
      */
     public static Lambda $(Lambda lambda, Lambda ... inputs) {
+        return lambda(lambda, inputs).evaluate();
+    }
+    
+    /**
+     * Create a lambda by applying the inputs to the given lambda lazily.
+     * 
+     * @param  lambda  the lambda.
+     * @param  inputs  the inputs.
+     * @return         the result lambda.
+     */
+    public static Lambda $$(Lambda lambda, Lambda ... inputs) {
         return lambda(lambda, inputs);
     }
     
     /**
-     * Apply the inputs to the lambda (lazy).
+     * Create a lambda by applying the inputs to the given lambda lazily.
      * 
      * @param lambda  the lambda.
      * @param inputs  the inputs.
@@ -101,7 +112,7 @@ public class LambdaCalculus {
         System.arraycopy(inputs, 1, restInputs, 0, restInputs.length);
         
         var newLambda = new LazyLambda(lambda, firstInput);
-        return $(newLambda, restInputs);
+        return $$(newLambda, restInputs);
     }
     
     //== Displaying ==
@@ -157,7 +168,7 @@ public class LambdaCalculus {
      * @return              the application result (evaluated).
      */
     public static Lambda show(String description, Lambda lambda, Lambda ... inputs) {
-        var value = $(lambda, inputs);
+        var value = $$(lambda, inputs);
         
         var valueString = displayValue(value);
         

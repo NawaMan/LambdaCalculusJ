@@ -1,6 +1,6 @@
 package net.nawaman.lambdacalculusj;
 
-import static net.nawaman.lambdacalculusj.LambdaCalculus.$;
+import static net.nawaman.lambdacalculusj.LambdaCalculus.$$;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.displayValue;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.lambda;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.show;
@@ -58,28 +58,28 @@ class LambdaCalculusTest {
     
     @Test
     void testApply0() {
-        var theLambda = $(lambda(true));
+        var theLambda = $$(lambda(true));
         assertAsString("true", theLambda);
         assertAsString("true", theLambda.evaluate());
     }
     
     @Test
     void testApply1() {
-        var theLambda = $(lambda(true), a);
+        var theLambda = $$(lambda(true), a);
         assertAsString("true(a)", theLambda);
         assertAsString("\\E.*\\Q$$Lambda$\\E[0-9]+\\Q/0x\\E[0-9a-f]+@[0-9a-f]+\\Q", theLambda.evaluate());
     }
     
     @Test
     void testApply2() {
-        var theLambda = $(lambda(true), a, b);
+        var theLambda = $$(lambda(true), a, b);
         assertAsString("true(a)(b)", theLambda);
         assertAsString("a",          theLambda.evaluate());
     }
     
     @Test
     void testApply3() {
-        var theLambda = $(lambda(true), a, b, b);
+        var theLambda = $$(lambda(true), a, b, b);
         assertAsString("true(a)(b)(b)", theLambda);
         assertAsString("b",             theLambda.evaluate());
     }
@@ -91,18 +91,18 @@ class LambdaCalculusTest {
     
     @Test
     void testDisplayValue_incompleteEvaluate() {
-        assertAsString("true(a)", displayValue($(lambda(true), a)));
+        assertAsString("true(a)", displayValue($$(lambda(true), a)));
     }
     
     @Test
     void testDisplayValue_evaluate() {
-        assertAsString("a", displayValue($(lambda(true), a, b)));
+        assertAsString("a", displayValue($$(lambda(true), a, b)));
     }
     
     @Test
     void testDisplayValue_infiniteRecursive() {
-        var repeat = lambda("repeat", x -> $(x, x));
-        assertAsString("repeat(repeat)'", displayValue($(repeat, repeat)));
+        var repeat = lambda("repeat", x -> $$(x, x));
+        assertAsString("repeat(repeat)'", displayValue($$(repeat, repeat)));
     }
     
     @Test

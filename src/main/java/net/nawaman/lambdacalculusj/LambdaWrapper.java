@@ -1,5 +1,8 @@
 package net.nawaman.lambdacalculusj;
 
+/**
+ * This implementation of Lambda contains `toString` which is eaiser to inspect.
+ */
 public class LambdaWrapper implements Lambda {
     
     private final Lambda lambda;

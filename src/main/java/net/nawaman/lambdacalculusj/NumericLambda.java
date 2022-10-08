@@ -1,6 +1,6 @@
 package net.nawaman.lambdacalculusj;
 
-import static net.nawaman.lambdacalculusj.LambdaCalculus.$;
+import static net.nawaman.lambdacalculusj.LambdaCalculus.$$;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.lambda;
 
 import java.util.function.Supplier;
@@ -17,7 +17,7 @@ public class NumericLambda extends LambdaWrapper {
             return lambda(intValue + "(" + f + ")", a -> {
                 var each = a;
                 for (int i = 0; i < intValue; i++) {
-                    each = $(f, each);
+                    each = $$(f, each);
                 }
                 return each;
             });
