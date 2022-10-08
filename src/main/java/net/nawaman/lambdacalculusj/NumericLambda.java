@@ -22,6 +22,10 @@ public class NumericLambda extends LambdaWrapper {
                 return each;
             });
         }, () -> intValue);
+        
+        if (intValue < 0) {
+            throw new IllegalArgumentException("Number for the NumericLambda cannot be negative: " + intValue);
+        }
     }
     
     public NumericLambda(Lambda lambda, Supplier<Integer> intValue) {
