@@ -22,7 +22,7 @@ public class BooleanExamples {
         assertAsString("TRUE",  TRUE);
         assertAsString("FALSE", FALSE);
         
-        assertAsString("TRUE(a)(b)", $$(TRUE,  a, b));
+        assertAsString("TRUE(a)(b)",  $$(TRUE,  a, b));
         assertAsString("FALSE(a)(b)", $$(FALSE, a, b));
         
         assertAsString("a", $(TRUE,  a, b));

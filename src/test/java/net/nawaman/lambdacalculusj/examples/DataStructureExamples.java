@@ -17,8 +17,8 @@ class DataStructureExamples {
     
     @Test
     void testValue() {
-        var makeValue = lambda("value", x     -> lambda(format("Value[%s]", x), f -> $$(f, x)));
-        var readValue = lambda("read",  value -> $$(value, x -> x));
+        var makeValue = lambda("value", x     -> lambda(format("Value[%s]", x), f -> $(f, x)));
+        var readValue = lambda("read",  value -> $(value, x -> x));
         
         var value = $$(makeValue, a);
         assertAsString("value(a)",        value);
@@ -30,11 +30,11 @@ class DataStructureExamples {
     void testValue_map() {
         var TRUE  = lambda("TRUE",  x -> y -> x);
         var FALSE = lambda("FALSE", x -> y -> y);
-        var not   = lambda("not", bool -> $$(bool, FALSE, TRUE));
+        var not   = lambda("not", bool -> $(bool, FALSE, TRUE));
         
-        var makeValue = lambda("value", x     -> lambda(format("Value[%s]", x), f -> $$(f, x)));
-        var readValue = lambda("read",  value -> $$(value, x -> x));
-        var mapValue  = lambda("map",   value -> f -> $$(makeValue, $$(f, $$(readValue, value))));
+        var makeValue = lambda("value", x     -> lambda(format("Value[%s]", x), f -> $(f, x)));
+        var readValue = lambda("read",  value -> $(value, x -> x));
+        var mapValue  = lambda("map",   value -> f -> $(makeValue, $(f, $(readValue, value))));
         
         var value = $$(makeValue, TRUE);
         assertAsString("value(TRUE)",  value);
@@ -43,9 +43,9 @@ class DataStructureExamples {
     
     @Test
     void testPair() {
-        var newPair  = lambda("newPair",     a -> b -> lambda(format("Pair[%s,%s]", a, b), f -> $$(f,a,b)));
-        var firstOf  = lambda("firstOf",  p -> $$(p, lambda(a -> b -> a)));
-        var secondOf = lambda("secondOf", p -> $$(p, lambda(a -> b -> b)));
+        var newPair  = lambda("newPair",     a -> b -> lambda(format("Pair[%s,%s]", a, b), f -> $(f,a,b)));
+        var firstOf  = lambda("firstOf",  p -> $(p, lambda(a -> b -> a)));
+        var secondOf = lambda("secondOf", p -> $(p, lambda(a -> b -> b)));
         
         var pair = $$(newPair, a, b);
         assertAsString("newPair(a)(b)", pair);
@@ -53,8 +53,8 @@ class DataStructureExamples {
         assertAsString("a",             $(firstOf,  pair));
         assertAsString("b",             $(secondOf, pair));
         
-        var setFirst  = lambda("setFirst",  p -> x -> $$(newPair, x, $$(secondOf, p)));
-        var setSecond = lambda("setSecond", p -> x -> $$(newPair, $$(firstOf, p), x));
+        var setFirst  = lambda("setFirst",  p -> x -> $(newPair, x, $(secondOf, p)));
+        var setSecond = lambda("setSecond", p -> x -> $(newPair, $(firstOf, p), x));
         
         assertAsString("Pair[b,b]", $(setFirst,  pair, b));
         assertAsString("Pair[a,a]", $(setSecond, pair, a));
@@ -64,24 +64,24 @@ class DataStructureExamples {
     void testList() {
         var TRUE    = lambda("TRUE",    x -> y -> x);
         var FALSE   = lambda("FALSE",   x -> y -> y);
-        var newPair = lambda("newPair", a -> b -> lambda(format("Pair[%s,%s]", a, b), f -> $$(f,a,b)));
+        var newPair = lambda("newPair", a -> b -> lambda(format("Pair[%s,%s]", a, b), f -> $(f,a,b)));
         var NIL     = lambda("NIL",     x -> TRUE);
         
         assertAsString("NIL", NIL.evaluate());
         
-        var newList = lambda("newList", element -> $$(newPair, element, NIL));
-        var list1   = $$(newList, lambda(1));
+        var newList = lambda("newList", element -> $(newPair, element, NIL));
+        var list1   = $(newList, lambda(1));
         assertAsString("Pair[1,NIL]", list1.evaluate());
         
-        var concat = lambda("concat",   value -> list -> $$(newPair, value, list));
-        var list2  = $$(concat, lambda(2), list1);
+        var concat = lambda("concat",   value -> list -> $(newPair, value, list));
+        var list2  = $(concat, lambda(2), list1);
         assertAsString("Pair[2,Pair[1,NIL]]", list2.evaluate());
         
-        var list3  = $$(concat, lambda(5), list2);
+        var list3  = $(concat, lambda(5), list2);
         assertAsString("Pair[5,Pair[2,Pair[1,NIL]]]", list3.evaluate());
         
-        var headOf = lambda("headOf",   list -> $$(list, lambda(a -> b -> a)));
-        var tailOf = lambda("tailOf",   list -> $$(list, lambda(a -> b -> b)));
+        var headOf = lambda("headOf",   list -> $(list, lambda(a -> b -> a)));
+        var tailOf = lambda("tailOf",   list -> $(list, lambda(a -> b -> b)));
         assertAsString("5",                   $(headOf, list3));
         assertAsString("Pair[2,Pair[1,NIL]]", $(tailOf, list3));
         
@@ -91,7 +91,7 @@ class DataStructureExamples {
         assertAsString("1",   $(headOf, list1));
         assertAsString("NIL", $(tailOf, list1));
         
-        var isEmpty  = lambda("isEmpty",  list -> $$(list, x -> y -> FALSE));
+        var isEmpty  = lambda("isEmpty",  list -> $(list, x -> y -> FALSE));
         assertAsString("TRUE",  $(isEmpty, NIL));
         assertAsString("FALSE", $(isEmpty, list1));
         assertAsString("FALSE", $(isEmpty, list2));
