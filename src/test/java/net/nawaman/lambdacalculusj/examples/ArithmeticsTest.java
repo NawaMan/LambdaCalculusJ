@@ -1,10 +1,12 @@
-package net.nawaman.lambdacalculusj.practical;
+package net.nawaman.lambdacalculusj.examples;
 
 import static net.nawaman.lambdacalculusj.LambdaCalculus.$;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.lambda;
 import static net.nawaman.lambdacalculusj.TestHelper.assertAsString;
 
 import org.junit.jupiter.api.Test;
+
+import net.nawaman.lambdacalculusj.Arithmetics;
 
 class ArithmeticsTest implements Arithmetics {
     
