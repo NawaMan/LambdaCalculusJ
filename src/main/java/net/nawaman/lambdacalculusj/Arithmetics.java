@@ -46,6 +46,9 @@ class ArithmeticsHelper {
 
 /**
  * Practical arithmetic lambda.
+ * 
+ * These lambdas take use Java to do the work to speed up the computation.
+ * `add` for example, is done using `+` instead of keep calling `successor`.
  */
 public interface Arithmetics {
     
@@ -59,6 +62,7 @@ public interface Arithmetics {
     public static final Lambda moduro   = lambda("moduro",   n -> m -> lambda(mapInts(n, m, (i, j) -> i % j)));
     public static final Lambda power    = lambda("power",    n -> m -> lambda(mapInts(n, m, (i, j) -> (int)pow(i, j))));
     
+    public static final Lambda isNumber       = lambda("isNumber",       n ->      lambda(checkInt(n, i -> true)));
     public static final Lambda isZero         = lambda("isZero",         n ->      lambda(checkInt(n, i -> i == 0)));
     public static final Lambda equal          = lambda("equal",          n -> m -> lambda(checkInts(n, m, (i, j) -> i == j)));
     public static final Lambda lessOrEqual    = lambda("lessOrEqual",    n -> m -> lambda(checkInts(n, m, (i, j) -> i <= j)));

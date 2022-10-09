@@ -120,6 +120,15 @@ class ArithmeticsTest implements Arithmetics {
     }
     
     @Test
+    void testIsZero() {
+        assertAsString("true",  $(isZero, lambda(0)));
+        assertAsString("false", $(isZero, lambda(1)));
+        
+        assertAsString("true",  $(isZero, lambda(f -> a -> a)));
+        assertAsString("false", $(isZero, lambda(f -> a -> $(f, a))));
+    }
+    
+    @Test
     void testNumberComparison() {
         assertAsString("false", $(equal, lambda(5), lambda(1)));
         assertAsString("true",  $(equal, lambda(5), lambda(5)));
@@ -150,6 +159,11 @@ class ArithmeticsTest implements Arithmetics {
     @Test
     void testNumberComparison_notNumber() {
         assertAsString("false", $(equal, lambda(1), lambda(f -> a -> lambda(true))));
+    }
+    @Test
+    void testIsNumber() {
+        assertAsString("true",  $(isNumber, lambda(1)));
+        assertAsString("false", $(isNumber, lambda(f -> a -> lambda(true))));
     }
     
 }
