@@ -1,5 +1,6 @@
 package net.nawaman.lambdacalculusj;
 
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -146,6 +147,38 @@ public class LambdaCalculus {
             valueString = lambda.toString() + "'";
         }
         return valueString;
+    }
+    
+    /**
+     * Returns the integer value representation of the given lambda or <code>null</code> if the lambda does not represent an integer.
+     * 
+     * @param  lambda  the input lambda.
+     * @return         the integer representation or <code>null</code>.
+     */
+    public static Integer intValue(Lambda lambda) {
+        var intValue = lambda.intValue();
+        if (intValue != null) {
+            return intValue;
+        }
+        
+        var counter = new AtomicReference<Integer>(0);
+        var input   = lambda("input", a -> a);
+        var func    = lambda("func",  a -> {
+            if (a != input) {
+                counter.set(null);
+                return a;
+            }
+            
+            var value = counter.get();
+            if (value instanceof Integer) {
+                counter.set(value + 1);
+            }
+            
+            return a;
+        });
+        
+        var result = $(lambda, func, input);
+        return (input == result) ? counter.get() : null;
     }
     
     /**

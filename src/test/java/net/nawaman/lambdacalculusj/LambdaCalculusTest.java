@@ -1,7 +1,9 @@
 package net.nawaman.lambdacalculusj;
 
+import static net.nawaman.lambdacalculusj.LambdaCalculus.$;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.$$;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.displayValue;
+import static net.nawaman.lambdacalculusj.LambdaCalculus.intValue;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.lambda;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.show;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.println;
@@ -103,6 +105,19 @@ class LambdaCalculusTest {
     void testDisplayValue_infiniteRecursive() {
         var repeat = lambda("repeat", x -> $$(x, x));
         assertAsString("repeat(repeat)'", displayValue($$(repeat, repeat)));
+    }
+    
+    @Test
+    void testNumeric_intValue() {
+        var zero = lambda(f -> a -> a);
+        var two  = lambda(f -> a -> $(f, $(f, a)));
+        var five = lambda(f -> a -> $(f, $(f, $(f, $(f, $(f, a))))));
+        assertAsString("0", intValue(zero));
+        assertAsString("2", intValue(two));
+        assertAsString("5", intValue(five));
+        
+        var notNumber = lambda(f -> a -> f);
+        assertAsString("null", intValue(notNumber));
     }
     
     @Test

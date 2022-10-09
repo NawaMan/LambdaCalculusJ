@@ -142,4 +142,14 @@ class ArithmeticsTest implements Arithmetics {
         assertAsString("false", $(greaterThan, lambda(5), lambda(7)));
     }
     
+    @Test
+    void testNumberComparison_encoding() {
+        assertAsString("true", $(equal, lambda(1), lambda(f -> a -> $(f, a))));
+    }
+    
+    @Test
+    void testNumberComparison_notNumber() {
+        assertAsString("false", $(equal, lambda(1), lambda(f -> a -> lambda(true))));
+    }
+    
 }
