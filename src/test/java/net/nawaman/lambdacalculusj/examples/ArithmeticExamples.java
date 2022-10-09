@@ -288,8 +288,8 @@ public class ArithmeticExamples {
     
     @Test
     void testAdd() {
-        var successor = lambda("successor", n -> lambda(f -> a -> $$(f, $$(n, f, a)), () -> n.intValue() + 1));
-        var add       = lambda("add",       n -> m -> $$($$(n, successor), m));
+        var successor = lambda("successor", n -> lambda(f -> a -> $(f, $(n, f, a)), () -> n.intValue() + 1));
+        var add       = lambda("add",       n -> m -> $($(n, successor), m));
         
         assertAsString("add(2)(3)", $$(add, lambda(2), lambda(3)));
         assertAsString("5",         $(add, lambda(2), lambda(3)));
@@ -302,8 +302,8 @@ public class ArithmeticExamples {
     @Test
     void testMultiply() {
         var zero      = lambda(0);
-        var successor = lambda("successor", n -> lambda(f -> a -> $$(f, $$(n, f, a)), () -> n.intValue() + 1));
-        var multiply  = lambda("multiply",  n -> m -> $$(m, $$(n, successor), zero));
+        var successor = lambda("successor", n -> lambda(f -> a -> $(f, $(n, f, a)), () -> n.intValue() + 1));
+        var multiply  = lambda("multiply",  n -> m -> $(m, $(n, successor), zero));
         
         var two   = lambda(2);
         var three = lambda(3);
@@ -319,9 +319,9 @@ public class ArithmeticExamples {
     void testPower() {
         var zero      = lambda(0);
         var one       = lambda(1);
-        var successor = lambda("successor", n -> lambda(f -> a -> $$(f, $$(n, f, a)), () -> n.intValue() + 1));
-        var multiply  = lambda("multiply",  n -> m -> $$(m, $$(n, successor), zero));
-        var power     = lambda("power",     n -> p -> $$($$(p, $$(multiply, n), one)));
+        var successor = lambda("successor", n -> lambda(f -> a -> $(f, $(n, f, a)), () -> n.intValue() + 1));
+        var multiply  = lambda("multiply",  n -> m -> $(m, $(n, successor), zero));
+        var power     = lambda("power",     n -> p -> $($(p, $(multiply, n), one)));
         
         assertAsString("power(2)(3)", $$(power, lambda(2), lambda(3)));
         assertAsString("8",           $(power, lambda(2), lambda(3)));
@@ -336,8 +336,8 @@ public class ArithmeticExamples {
         var TRUE  = lambda("TRUE",  x -> y -> x);
         var FALSE = lambda("FALSE", x -> y -> y);
         
-        var falseOrElse = $$(lambda(a -> b -> a), FALSE);
-        var isZero      = lambda("isZero", n -> $$(n, falseOrElse, TRUE));
+        var falseOrElse = $(lambda(a -> b -> a), FALSE);
+        var isZero      = lambda("isZero", n -> $(n, falseOrElse, TRUE));
         assertAsString("TRUE",  $(isZero, lambda(0)));
         assertAsString("FALSE", $(isZero, lambda(1)));
         assertAsString("FALSE", $(isZero, lambda(5)));
@@ -345,13 +345,13 @@ public class ArithmeticExamples {
     
     @Test
     void testPredecessor() {
-        var zero        = lambda("0", lambda(f -> a -> a, () -> 0));
-        var successor   = lambda("successor",   n -> lambda(f -> a -> $$(f, $$(n, f, a)), () -> n.intValue() + 1));
-        var newPair     = lambda("newPair",     a -> b -> lambda(format("Pair[%s,%s]", a, b), f -> $$(f,a,b)));
-        var firstOf     = lambda("firstOf",     p -> $$(p, lambda(a -> b -> a)));
-        var secondOf    = lambda("secondOf",    p -> $$(p, lambda(a -> b -> b)));
-        var transform   = lambda("transform",   p -> $$(newPair,  $$(secondOf, p), $$(successor, $$(secondOf, p))));
-        var predecessor = lambda("predecessor", n -> $$(firstOf, $$($$(n, transform), $$(newPair, zero, zero))));
+        var zero        = lambda("0",           lambda(f -> a -> a, () -> 0));
+        var successor   = lambda("successor",   n -> lambda(f -> a -> $(f, $(n, f, a)), () -> n.intValue() + 1));
+        var newPair     = lambda("newPair",     a -> b -> lambda(format("Pair[%s,%s]", a, b), f -> $(f,a,b)));
+        var firstOf     = lambda("firstOf",     p -> $(p, lambda(a -> b -> a)));
+        var secondOf    = lambda("secondOf",    p -> $(p, lambda(a -> b -> b)));
+        var transform   = lambda("transform",   p -> $(newPair,  $(secondOf, p), $(successor, $(secondOf, p))));
+        var predecessor = lambda("predecessor", n -> $(firstOf, $($(n, transform), $(newPair, zero, zero))));
         
         assertAsString("0", $(predecessor, zero));
         assertAsString("0", $(predecessor, lambda(1)));
@@ -361,13 +361,13 @@ public class ArithmeticExamples {
     @Test
     void testSubtract() {
         var zero        = lambda("0",           lambda(f -> a -> a, () -> 0));
-        var succ        = lambda("succ",        n -> lambda(f -> a -> $$(f, $$(n, f, a)), () -> n.intValue() + 1));
-        var pairOf      = lambda("pairOf",      a -> b -> lambda(format("Pair[%s,%s]", a, b), f -> $$(f,a,b)));
-        var first       = lambda("first",       p -> $$(p, lambda(a -> b -> a)));
-        var second      = lambda("second",      p -> $$(p, lambda(a -> b -> b)));
-        var transform   = lambda("transform",   p -> $$(pairOf, $$(second, p), $$(succ, $$(second, p))));
-        var predecessor = lambda("predecessor", n -> $$(first, $$($$(n, transform), $$(pairOf, zero, zero))));
-        var subtract    = lambda("subtract",    n -> k -> $$($$(k, predecessor), n));
+        var succ        = lambda("succ",        n -> lambda(f -> a -> $(f, $(n, f, a)), () -> n.intValue() + 1));
+        var pairOf      = lambda("pairOf",      a -> b -> lambda(format("Pair[%s,%s]", a, b), f -> $(f,a,b)));
+        var first       = lambda("first",       p -> $(p, lambda(a -> b -> a)));
+        var second      = lambda("second",      p -> $(p, lambda(a -> b -> b)));
+        var transform   = lambda("transform",   p -> $(pairOf, $(second, p), $(succ, $(second, p))));
+        var predecessor = lambda("predecessor", n -> $(first, $($(n, transform), $(pairOf, zero, zero))));
+        var subtract    = lambda("subtract",    n -> k -> $($(k, predecessor), n));
         
         assertAsString("4", $(subtract, lambda(5), lambda(1)));
         assertAsString("1", $(subtract, lambda(3), lambda(2)));
@@ -377,43 +377,43 @@ public class ArithmeticExamples {
     void testNumberComparison() {
         var TRUE  = lambda("TRUE",  x -> y -> x);
         var FALSE = lambda("FALSE", x -> y -> y);
-        var not   = lambda("not",   bool -> $$(bool, FALSE, TRUE));
-        var and   = lambda("and",   p -> q -> $$(p, q, p));
-        var or    = lambda("or",    p -> q -> $$(p, p, q));
+        var not   = lambda("not",   bool -> $(bool, FALSE, TRUE));
+        var and   = lambda("and",   p -> q -> $(p, q, p));
+        var or    = lambda("or",    p -> q -> $(p, p, q));
         
-        var falseOrElse = $$(lambda(a -> b -> a), FALSE);
-        var isZero      = lambda("isZero", n -> $$(n, falseOrElse, TRUE));
+        var falseOrElse = $(lambda(a -> b -> a), FALSE);
+        var isZero      = lambda("isZero", n -> $(n, falseOrElse, TRUE));
         
         var zero        = lambda("0",           lambda(f -> a -> a, () -> 0));
-        var succ        = lambda("succ",        n -> lambda(f -> a -> $$(f, $$(n, f, a)), () -> n.intValue() + 1));
-        var pairOf      = lambda("pairOf",      a -> b -> lambda(format("Pair[%s,%s]", a, b), f -> $$(f,a,b)));
-        var first       = lambda("first",       p -> $$(p, lambda(a -> b -> a)));
-        var second      = lambda("second",      p -> $$(p, lambda(a -> b -> b)));
-        var transform   = lambda("transform",   p -> $$(pairOf, $$(second, p), $$(succ, $$(second, p))));
-        var predecessor = lambda("predecessor", n -> $$(first, $$($$(n, transform), $$(pairOf, zero, zero))));
-        var subtract    = lambda("subtract",    n -> k -> $$($$(k, predecessor), n));
+        var succ        = lambda("succ",        n -> lambda(f -> a -> $(f, $(n, f, a)), () -> n.intValue() + 1));
+        var pairOf      = lambda("pairOf",      a -> b -> lambda(format("Pair[%s,%s]", a, b), f -> $(f,a,b)));
+        var first       = lambda("first",       p -> $(p, lambda(a -> b -> a)));
+        var second      = lambda("second",      p -> $(p, lambda(a -> b -> b)));
+        var transform   = lambda("transform",   p -> $(pairOf, $(second, p), $(succ, $(second, p))));
+        var predecessor = lambda("predecessor", n -> $(first, $($(n, transform), $(pairOf, zero, zero))));
+        var subtract    = lambda("subtract",    n -> k -> $($(k, predecessor), n));
         
-        var lessOrEqual = lambda("lessOrEqual", n -> m -> $$(isZero, $$(subtract, n, m)));
+        var lessOrEqual = lambda("lessOrEqual", n -> m -> $(isZero, $(subtract, n, m)));
         assertAsString("FALSE", $(lessOrEqual, lambda(5), lambda(1)));
         assertAsString("TRUE",  $(lessOrEqual, lambda(5), lambda(5)));
         assertAsString("TRUE",  $(lessOrEqual, lambda(5), lambda(7)));
         
-        var greaterThan = lambda("greaterThan", n -> m -> $$(not, $$(lessOrEqual, n, m)));
+        var greaterThan = lambda("greaterThan", n -> m -> $(not, $(lessOrEqual, n, m)));
         assertAsString("TRUE",  $(greaterThan, lambda(5), lambda(1)));
         assertAsString("FALSE", $(greaterThan, lambda(5), lambda(5)));
         assertAsString("FALSE", $(greaterThan, lambda(5), lambda(7)));
         
-        var equal = lambda("equal", n -> m -> $$(and, $$(lessOrEqual, n, m), $$(lessOrEqual, m, n)));
+        var equal = lambda("equal", n -> m -> $(and, $(lessOrEqual, n, m), $(lessOrEqual, m, n)));
         assertAsString("FALSE", $(equal, lambda(5), lambda(1)));
         assertAsString("TRUE",  $(equal, lambda(5), lambda(5)));
         assertAsString("FALSE", $(equal, lambda(5), lambda(7)));
         
-        var lessThan = lambda("lessThan", n -> m -> $$(and, $$(lessOrEqual, n, m), $$(not, $$(lessOrEqual, m, n))));
+        var lessThan = lambda("lessThan", n -> m -> $(and, $(lessOrEqual, n, m), $(not, $(lessOrEqual, m, n))));
         assertAsString("FALSE", $(lessThan, lambda(5), lambda(1)));
         assertAsString("FALSE", $(lessThan, lambda(5), lambda(5)));
         assertAsString("TRUE",  $(lessThan, lambda(5), lambda(7)));
         
-        var greaterOrEqual = lambda("greaterOrEqual", n -> m -> $$(or, $$(greaterThan, n, m), $$(equal, n, m)));
+        var greaterOrEqual = lambda("greaterOrEqual", n -> m -> $(or, $(greaterThan, n, m), $(equal, n, m)));
         assertAsString("TRUE",  $(greaterOrEqual, lambda(5), lambda(1)));
         assertAsString("TRUE",  $(greaterOrEqual, lambda(5), lambda(5)));
         assertAsString("FALSE", $(greaterOrEqual, lambda(5), lambda(7)));
