@@ -19,7 +19,7 @@ public class LambdaCalculus {
      * @param  lambda  the input lambda.
      * @return         the lambda.
      */
-    public static Lambda lambda(Lambda lambda) {
+    public static Lambda wholeNumber(Lambda lambda) {
         return new LambdaWrapper(null, lambda);
     }
     
@@ -41,18 +41,22 @@ public class LambdaCalculus {
      * @return           the lambda.
      */
     public static Lambda lambda(Lambda lambda, Supplier<Integer> intValue) {
-        return new NumericLambda(lambda, intValue);
+        return new WholeNumeberLambda(lambda, intValue);
     }
     
+    //== Number ==
+    
     /**
-     * Create a lambda for the integer value.
+     * Create a lambda for the whole-number value.
      * 
-     * @param  intValue  the integer value.
+     * @param  wholeNumberValue  the integer value.
      * @return           the lambda.
      */
-    public static Lambda lambda(int intValue) {
-        return new NumericLambda(intValue);
+    public static Lambda wholeNumber(int wholeNumberValue) {
+        return new WholeNumeberLambda(wholeNumberValue);
     }
+    
+    //== Boolean ==
     
     private static final Lambda TRUE  = lambda("true",  x -> y -> x);
     private static final Lambda FALSE = lambda("false", x -> y -> y);
@@ -100,7 +104,11 @@ public class LambdaCalculus {
      */
     public static Lambda lambda(Lambda lambda, Lambda ... inputs) {
         if (inputs.length == 0) {
-            return lambda;
+            if ((lambda instanceof LambdaWrapper) || (lambda instanceof LazyLambda)) {
+                return lambda;
+            }
+            
+            return new LambdaWrapper(null, lambda);
         }
         
         if (inputs.length == 1) {

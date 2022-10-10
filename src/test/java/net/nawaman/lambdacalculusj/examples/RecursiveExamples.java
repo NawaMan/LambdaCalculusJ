@@ -4,6 +4,7 @@ import static net.nawaman.lambdacalculusj.LambdaCalculus.$$;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.$;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.format;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.lambda;
+import static net.nawaman.lambdacalculusj.LambdaCalculus.wholeNumber;
 import static net.nawaman.lambdacalculusj.TestHelper.assertAsString;
 
 import org.junit.jupiter.api.Test;
@@ -71,8 +72,8 @@ class RecursiveExamples {
         assertAsString("2",  $(fibonacci, three));
         assertAsString("3",  $(fibonacci, four));
         assertAsString("5",  $(fibonacci, five));
-        assertAsString("8",  $(fibonacci, lambda(6)));
-        assertAsString("13", $(fibonacci, lambda(7)));
+        assertAsString("8",  $(fibonacci, wholeNumber(6)));
+        assertAsString("13", $(fibonacci, wholeNumber(7)));
     }
     
 }

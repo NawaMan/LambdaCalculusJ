@@ -6,37 +6,37 @@ import static net.nawaman.lambdacalculusj.LambdaCalculus.lambda;
 import java.util.function.Supplier;
 
 /**
- * This implementation of Lambda aims to represent an integer.
+ * This implementation of Lambda aims to represent a whole lambda.
  */
-public class NumericLambda extends LambdaWrapper {
+public class WholeNumeberLambda extends LambdaWrapper {
     
-    private final Supplier<Integer> intValue;
+    private final Supplier<Integer> numberValue;
     
-    public NumericLambda(int intValue) {
+    public WholeNumeberLambda(int numberValue) {
         this(f -> {
-            return lambda(intValue + "(" + f + ")", a -> {
+            return lambda(numberValue + "(" + f + ")", a -> {
                 var each = a;
-                for (int i = 0; i < intValue; i++) {
+                for (int i = 0; i < numberValue; i++) {
                     each = $$(f, each);
                 }
                 return each;
             });
-        }, () -> intValue);
+        }, () -> numberValue);
         
-        if (intValue < 0) {
-            throw new IllegalArgumentException("Number for the NumericLambda cannot be negative: " + intValue);
+        if (numberValue < 0) {
+            throw new IllegalArgumentException("Number for the WholeNumericLambda cannot be negative: " + numberValue);
         }
     }
     
-    public NumericLambda(Lambda lambda, Supplier<Integer> intValue) {
+    public WholeNumeberLambda(Lambda lambda, Supplier<Integer> numberValue) {
         super(null, lambda);
-        this.intValue = intValue;
+        this.numberValue = numberValue;
     }
     
     @Override
     public Integer intValue() {
         try {
-            return intValue.get();
+            return numberValue.get();
         } catch (NullPointerException e) {
             return null;
         }

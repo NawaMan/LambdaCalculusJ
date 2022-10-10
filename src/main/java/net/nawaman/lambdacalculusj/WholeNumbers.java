@@ -50,17 +50,27 @@ class ArithmeticsHelper {
  * These lambdas take use Java to do the work to speed up the computation.
  * `add` for example, is done using `+` instead of keep calling `successor`.
  */
-public interface Arithmetics {
+public interface WholeNumbers {
     
-    public static final Lambda successor   = lambda("successor",   n -> lambda(mapInt(n, i ->        i + 1)));
-    public static final Lambda predecessor = lambda("predecessor", n -> lambda(mapInt(n, i -> max(0, i - 1))));
+    /**
+     * Create a lambda for the whole-number value.
+     * 
+     * @param  wholeNumberValue  the integer value.
+     * @return           the lambda.
+     */
+    public static Lambda wholeNumber(int wholeNumberValue) {
+        return new WholeNumeberLambda(wholeNumberValue);
+    }
     
-    public static final Lambda add      = lambda("add",      n -> m -> lambda(mapInts(n, m, (i, j) -> i + j)));
-    public static final Lambda subtract = lambda("subtract", n -> m -> lambda(mapInts(n, m, (i, j) -> max(0, i - j))));
-    public static final Lambda multiply = lambda("multiply", n -> m -> lambda(mapInts(n, m, (i, j) -> i * j)));
-    public static final Lambda divide   = lambda("divide",   n -> m -> lambda(mapInts(n, m, (i, j) -> i / j)));
-    public static final Lambda moduro   = lambda("moduro",   n -> m -> lambda(mapInts(n, m, (i, j) -> i % j)));
-    public static final Lambda power    = lambda("power",    n -> m -> lambda(mapInts(n, m, (i, j) -> (int)pow(i, j))));
+    public static final Lambda successor   = lambda("successor",   n -> wholeNumber(mapInt(n, i ->        i + 1)));
+    public static final Lambda predecessor = lambda("predecessor", n -> wholeNumber(mapInt(n, i -> max(0, i - 1))));
+    
+    public static final Lambda add      = lambda("add",      n -> m -> wholeNumber(mapInts(n, m, (i, j) -> i + j)));
+    public static final Lambda subtract = lambda("subtract", n -> m -> wholeNumber(mapInts(n, m, (i, j) -> max(0, i - j))));
+    public static final Lambda multiply = lambda("multiply", n -> m -> wholeNumber(mapInts(n, m, (i, j) -> i * j)));
+    public static final Lambda divide   = lambda("divide",   n -> m -> wholeNumber(mapInts(n, m, (i, j) -> i / j)));
+    public static final Lambda moduro   = lambda("moduro",   n -> m -> wholeNumber(mapInts(n, m, (i, j) -> i % j)));
+    public static final Lambda power    = lambda("power",    n -> m -> wholeNumber(mapInts(n, m, (i, j) -> (int)pow(i, j))));
     
     public static final Lambda isNumber       = lambda("isNumber",       n ->      lambda(checkInt(n, i -> true)));
     public static final Lambda isZero         = lambda("isZero",         n ->      lambda(checkInt(n, i -> i == 0)));

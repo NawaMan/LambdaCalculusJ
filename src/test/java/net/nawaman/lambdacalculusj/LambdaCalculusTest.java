@@ -6,6 +6,7 @@ import static net.nawaman.lambdacalculusj.LambdaCalculus.displayValue;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.intValue;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.lambda;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.show;
+import static net.nawaman.lambdacalculusj.LambdaCalculus.wholeNumber;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.println;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.section;
 import static net.nawaman.lambdacalculusj.TestHelper.assertAsString;
@@ -36,15 +37,15 @@ class LambdaCalculusTest {
     
     @Test
     void testInt() {
-        assertAsString("42",    lambda(42));
-        assertAsString("5(12)", lambda(5).apply(lambda(12)));
+        assertAsString("42",    wholeNumber(42));
+        assertAsString("5(12)", wholeNumber(5).apply(wholeNumber(12)));
     }
     
     @Test
     void testNumeric() {
-        var add = lambda(x -> y -> lambda(lambda(x.intValue() + y.intValue()), () -> x.intValue() + y.intValue()));
-        var two = lambda(2);
-        var ten = lambda(10);
+        var add = lambda(x -> y -> lambda(wholeNumber(x.intValue() + y.intValue()), () -> x.intValue() + y.intValue()));
+        var two = wholeNumber(2);
+        var ten = wholeNumber(10);
         assertAsString("12", add.apply(two).apply(ten));
     }
     

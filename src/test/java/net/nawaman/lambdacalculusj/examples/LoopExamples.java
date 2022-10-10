@@ -3,6 +3,7 @@ package net.nawaman.lambdacalculusj.examples;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.$;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.format;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.lambda;
+import static net.nawaman.lambdacalculusj.LambdaCalculus.wholeNumber;
 import static net.nawaman.lambdacalculusj.TestHelper.assertAsString;
 
 import org.junit.jupiter.api.Test;
@@ -30,7 +31,7 @@ class LoopExamples {
     
     @Test
     void testFactorial_loop() {
-        var start     = $(newPair, lambda(0), lambda(1));
+        var start     = $(newPair, wholeNumber(0), wholeNumber(1));
         var next      = lambda(p -> n -> $(newPair, n, $(multiply, n, $(secondOf, p))));
         var each      = lambda(p -> $(next, p, $(successor, $(firstOf, p))));
         var factorial = lambda(n -> $(secondOf, $($(n, each), start)));
@@ -61,10 +62,10 @@ class LoopExamples {
         assertAsString("2",  $(fibonacci, three));
         assertAsString("3",  $(fibonacci, four));
         assertAsString("5",  $(fibonacci, five));
-        assertAsString("8",  $(fibonacci, lambda(6)));
-        assertAsString("13", $(fibonacci, lambda(7)));
-        assertAsString("21", $(fibonacci, lambda(8)));
-        assertAsString("34", $(fibonacci, lambda(9)));
+        assertAsString("8",  $(fibonacci, wholeNumber(6)));
+        assertAsString("13", $(fibonacci, wholeNumber(7)));
+        assertAsString("21", $(fibonacci, wholeNumber(8)));
+        assertAsString("34", $(fibonacci, wholeNumber(9)));
     }
     
 }

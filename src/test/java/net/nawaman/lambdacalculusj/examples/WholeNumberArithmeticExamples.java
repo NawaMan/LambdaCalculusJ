@@ -4,6 +4,7 @@ import static net.nawaman.lambdacalculusj.LambdaCalculus.$$;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.$;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.format;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.lambda;
+import static net.nawaman.lambdacalculusj.LambdaCalculus.wholeNumber;
 import static net.nawaman.lambdacalculusj.TestHelper.assertAsString;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import net.nawaman.lambdacalculusj.Lambda;
 
-public class ArithmeticExamples {
+public class WholeNumberArithmeticExamples {
     
     private final Lambda a = lambda("a", x -> x);
     
@@ -102,7 +103,7 @@ public class ArithmeticExamples {
         //== Zero ==
         
         var zeroDirect = lambda("0", lambda(f -> a -> a, () -> 0));
-        var zeroShort  = lambda(0);
+        var zeroShort  = wholeNumber(0);
         
         logs.clear();
         zeroDirect.apply(eat).apply(cookie).evaluate();
@@ -115,7 +116,7 @@ public class ArithmeticExamples {
         //== Two ==
         
         var twoDirect = lambda("2", lambda(f -> a -> $$(f, $$(f, a)), () -> 2));
-        var twoShort  = lambda(2);
+        var twoShort  = wholeNumber(2);
         
         logs.clear();
         twoDirect.apply(eat).apply(cookie).evaluate();
@@ -134,7 +135,7 @@ public class ArithmeticExamples {
         //== Five ==
         
         var fiveDirect = lambda("5", lambda(f -> a -> $$(f, $$(f, $$(f, $$(f, $$(f, a))))), () -> 5));
-        var fiveShort  = lambda(5);
+        var fiveShort  = wholeNumber(5);
         
         logs.clear();
         fiveDirect.apply(eat).apply(cookie).evaluate();
@@ -159,12 +160,12 @@ public class ArithmeticExamples {
     
     @Test
     void testEvenOdd() {
-        var zero  = lambda(0);
-        var one   = lambda(1);
-        var two   = lambda(2);
-        var three = lambda(3);
-        var four  = lambda(4);
-        var five  = lambda(5);
+        var zero  = wholeNumber(0);
+        var one   = wholeNumber(1);
+        var two   = wholeNumber(2);
+        var three = wholeNumber(3);
+        var four  = wholeNumber(4);
+        var five  = wholeNumber(5);
         
         var TRUE  = lambda("TRUE",  x -> y -> x);
         var FALSE = lambda("FALSE", x -> y -> y);
@@ -291,22 +292,22 @@ public class ArithmeticExamples {
         var successor = lambda("successor", n -> lambda(f -> a -> $(f, $(n, f, a)), () -> n.intValue() + 1));
         var add       = lambda("add",       n -> m -> $($(n, successor), m));
         
-        assertAsString("add(2)(3)", $$(add, lambda(2), lambda(3)));
-        assertAsString("5",         $(add, lambda(2), lambda(3)));
+        assertAsString("add(2)(3)", $$(add, wholeNumber(2), wholeNumber(3)));
+        assertAsString("5",         $(add, wholeNumber(2), wholeNumber(3)));
         
-        var five = $$(add, lambda(2), lambda(3));
-        assertAsString("add(3)(add(2)(3))", $$(add, lambda(3), five));
-        assertAsString("8",                 $(add, lambda(3), five));
+        var five = $$(add, wholeNumber(2), wholeNumber(3));
+        assertAsString("add(3)(add(2)(3))", $$(add, wholeNumber(3), five));
+        assertAsString("8",                 $(add, wholeNumber(3), five));
     }
     
     @Test
     void testMultiply() {
-        var zero      = lambda(0);
+        var zero      = wholeNumber(0);
         var successor = lambda("successor", n -> lambda(f -> a -> $(f, $(n, f, a)), () -> n.intValue() + 1));
         var multiply  = lambda("multiply",  n -> m -> $(m, $(n, successor), zero));
         
-        var two   = lambda(2);
-        var three = lambda(3);
+        var two   = wholeNumber(2);
+        var three = wholeNumber(3);
         assertAsString("multiply(2)(3)", $$(multiply, two, three));
         assertAsString("6",              $(multiply, two, three));
         
@@ -317,18 +318,18 @@ public class ArithmeticExamples {
     
     @Test
     void testPower() {
-        var zero      = lambda(0);
-        var one       = lambda(1);
+        var zero      = wholeNumber(0);
+        var one       = wholeNumber(1);
         var successor = lambda("successor", n -> lambda(f -> a -> $(f, $(n, f, a)), () -> n.intValue() + 1));
         var multiply  = lambda("multiply",  n -> m -> $(m, $(n, successor), zero));
         var power     = lambda("power",     n -> p -> $($(p, $(multiply, n), one)));
         
-        assertAsString("power(2)(3)", $$(power, lambda(2), lambda(3)));
-        assertAsString("8",           $(power, lambda(2), lambda(3)));
+        assertAsString("power(2)(3)", $$(power, wholeNumber(2), wholeNumber(3)));
+        assertAsString("8",           $(power,  wholeNumber(2), wholeNumber(3)));
         
-        var eight = $$(power, lambda(2), lambda(3));
-        assertAsString("power(2)(power(2)(3))", $$(power, lambda(2), eight));
-        assertAsString("256",                   $(power, lambda(2), eight));
+        var eight = $$(power, wholeNumber(2), wholeNumber(3));
+        assertAsString("power(2)(power(2)(3))", $$(power, wholeNumber(2), eight));
+        assertAsString("256",                   $(power, wholeNumber(2), eight));
     }
     
     @Test
@@ -338,9 +339,9 @@ public class ArithmeticExamples {
         
         var falseOrElse = $(lambda(a -> b -> a), FALSE);
         var isZero      = lambda("isZero", n -> $(n, falseOrElse, TRUE));
-        assertAsString("TRUE",  $(isZero, lambda(0)));
-        assertAsString("FALSE", $(isZero, lambda(1)));
-        assertAsString("FALSE", $(isZero, lambda(5)));
+        assertAsString("TRUE",  $(isZero, wholeNumber(0)));
+        assertAsString("FALSE", $(isZero, wholeNumber(1)));
+        assertAsString("FALSE", $(isZero, wholeNumber(5)));
     }
     
     @Test
@@ -354,8 +355,8 @@ public class ArithmeticExamples {
         var predecessor = lambda("predecessor", n -> $(firstOf, $($(n, transform), $(newPair, zero, zero))));
         
         assertAsString("0", $(predecessor, zero));
-        assertAsString("0", $(predecessor, lambda(1)));
-        assertAsString("4", $(predecessor, lambda(5)));
+        assertAsString("0", $(predecessor, wholeNumber(1)));
+        assertAsString("4", $(predecessor, wholeNumber(5)));
     }
     
     @Test
@@ -369,8 +370,8 @@ public class ArithmeticExamples {
         var predecessor = lambda("predecessor", n -> $(first, $($(n, transform), $(pairOf, zero, zero))));
         var subtract    = lambda("subtract",    n -> k -> $($(k, predecessor), n));
         
-        assertAsString("4", $(subtract, lambda(5), lambda(1)));
-        assertAsString("1", $(subtract, lambda(3), lambda(2)));
+        assertAsString("4", $(subtract, wholeNumber(5), wholeNumber(1)));
+        assertAsString("1", $(subtract, wholeNumber(3), wholeNumber(2)));
     }
     
     @Test
@@ -394,29 +395,29 @@ public class ArithmeticExamples {
         var subtract    = lambda("subtract",    n -> k -> $($(k, predecessor), n));
         
         var lessOrEqual = lambda("lessOrEqual", n -> m -> $(isZero, $(subtract, n, m)));
-        assertAsString("FALSE", $(lessOrEqual, lambda(5), lambda(1)));
-        assertAsString("TRUE",  $(lessOrEqual, lambda(5), lambda(5)));
-        assertAsString("TRUE",  $(lessOrEqual, lambda(5), lambda(7)));
+        assertAsString("FALSE", $(lessOrEqual, wholeNumber(5), wholeNumber(1)));
+        assertAsString("TRUE",  $(lessOrEqual, wholeNumber(5), wholeNumber(5)));
+        assertAsString("TRUE",  $(lessOrEqual, wholeNumber(5), wholeNumber(7)));
         
         var greaterThan = lambda("greaterThan", n -> m -> $(not, $(lessOrEqual, n, m)));
-        assertAsString("TRUE",  $(greaterThan, lambda(5), lambda(1)));
-        assertAsString("FALSE", $(greaterThan, lambda(5), lambda(5)));
-        assertAsString("FALSE", $(greaterThan, lambda(5), lambda(7)));
+        assertAsString("TRUE",  $(greaterThan, wholeNumber(5), wholeNumber(1)));
+        assertAsString("FALSE", $(greaterThan, wholeNumber(5), wholeNumber(5)));
+        assertAsString("FALSE", $(greaterThan, wholeNumber(5), wholeNumber(7)));
         
         var equal = lambda("equal", n -> m -> $(and, $(lessOrEqual, n, m), $(lessOrEqual, m, n)));
-        assertAsString("FALSE", $(equal, lambda(5), lambda(1)));
-        assertAsString("TRUE",  $(equal, lambda(5), lambda(5)));
-        assertAsString("FALSE", $(equal, lambda(5), lambda(7)));
+        assertAsString("FALSE", $(equal, wholeNumber(5), wholeNumber(1)));
+        assertAsString("TRUE",  $(equal, wholeNumber(5), wholeNumber(5)));
+        assertAsString("FALSE", $(equal, wholeNumber(5), wholeNumber(7)));
         
         var lessThan = lambda("lessThan", n -> m -> $(and, $(lessOrEqual, n, m), $(not, $(lessOrEqual, m, n))));
-        assertAsString("FALSE", $(lessThan, lambda(5), lambda(1)));
-        assertAsString("FALSE", $(lessThan, lambda(5), lambda(5)));
-        assertAsString("TRUE",  $(lessThan, lambda(5), lambda(7)));
+        assertAsString("FALSE", $(lessThan, wholeNumber(5), wholeNumber(1)));
+        assertAsString("FALSE", $(lessThan, wholeNumber(5), wholeNumber(5)));
+        assertAsString("TRUE",  $(lessThan, wholeNumber(5), wholeNumber(7)));
         
         var greaterOrEqual = lambda("greaterOrEqual", n -> m -> $(or, $(greaterThan, n, m), $(equal, n, m)));
-        assertAsString("TRUE",  $(greaterOrEqual, lambda(5), lambda(1)));
-        assertAsString("TRUE",  $(greaterOrEqual, lambda(5), lambda(5)));
-        assertAsString("FALSE", $(greaterOrEqual, lambda(5), lambda(7)));
+        assertAsString("TRUE",  $(greaterOrEqual, wholeNumber(5), wholeNumber(1)));
+        assertAsString("TRUE",  $(greaterOrEqual, wholeNumber(5), wholeNumber(5)));
+        assertAsString("FALSE", $(greaterOrEqual, wholeNumber(5), wholeNumber(7)));
     }
     
 }

@@ -4,6 +4,7 @@ import static net.nawaman.lambdacalculusj.LambdaCalculus.$$;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.$;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.format;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.lambda;
+import static net.nawaman.lambdacalculusj.LambdaCalculus.wholeNumber;
 import static net.nawaman.lambdacalculusj.TestHelper.assertAsString;
 
 import org.junit.jupiter.api.Test;
@@ -70,14 +71,14 @@ class DataStructureExamples {
         assertAsString("NIL", NIL.evaluate());
         
         var newList = lambda("newList", element -> $(newPair, element, NIL));
-        var list1   = $(newList, lambda(1));
+        var list1   = $(newList, wholeNumber(1));
         assertAsString("Pair[1,NIL]", list1.evaluate());
         
         var concat = lambda("concat",   value -> list -> $(newPair, value, list));
-        var list2  = $(concat, lambda(2), list1);
+        var list2  = $(concat, wholeNumber(2), list1);
         assertAsString("Pair[2,Pair[1,NIL]]", list2.evaluate());
         
-        var list3  = $(concat, lambda(5), list2);
+        var list3  = $(concat, wholeNumber(5), list2);
         assertAsString("Pair[5,Pair[2,Pair[1,NIL]]]", list3.evaluate());
         
         var headOf = lambda("headOf",   list -> $(list, lambda(a -> b -> a)));

@@ -4,13 +4,14 @@ import static net.nawaman.lambdacalculusj.LambdaCalculus.$$;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.$;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.format;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.lambda;
+import static net.nawaman.lambdacalculusj.LambdaCalculus.wholeNumber;
 import static net.nawaman.lambdacalculusj.TestHelper.assertAsString;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.jupiter.api.Test;
 
-class ArithmeticShortcutExamples {
+class WholeNumberArithmeticShortcutExamples {
     
     @Test
     void testNotShortcut() throws InterruptedException {
@@ -43,9 +44,9 @@ class ArithmeticShortcutExamples {
     
     @Test
     void testShortcut() throws InterruptedException {
-        var two      = lambda(2);
-        var fourty   = lambda(40);
-        var subtract = lambda("subtract", n -> k -> lambda(n.intValue() - k.intValue()));
+        var two      = wholeNumber(2);
+        var fourty   = wholeNumber(40);
+        var subtract = lambda("subtract", n -> k -> wholeNumber(n.intValue() - k.intValue()));
         
         // Check that it take longer than 1 second to compute
         var result = new AtomicInteger(-1);

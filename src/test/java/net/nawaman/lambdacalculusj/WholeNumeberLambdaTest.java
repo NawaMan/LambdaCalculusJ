@@ -8,9 +8,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.jupiter.api.Test;
 
-class NumericLambdaTest {
+class WholeNumeberLambdaTest {
     
-    private Lambda five = new NumericLambda(5);
+    private Lambda five = new WholeNumeberLambda(5);
     
     @Test
     void testIntValue() {
@@ -31,7 +31,7 @@ class NumericLambdaTest {
             return x;
         });
         // Number give out a lazy lambda of the function and the parameter
-        var fortyTwo = new NumericLambda(42);
+        var fortyTwo = new WholeNumeberLambda(42);
         assertAsString("f(f(f(f(f(42)))))", five.apply(log).apply(fortyTwo));
         assertAsString("[]", logs);
         
@@ -48,13 +48,13 @@ class NumericLambdaTest {
     
     @Test
     void testNAN() {
-        var nan = new NumericLambda(f -> a -> { return null; }, () -> null);
+        var nan = new WholeNumeberLambda(f -> a -> { return null; }, () -> null);
         assertAsString("NAN", nan);
     }
     
     @Test
     void testNAN_NullPointerException() {
-        var nan = new NumericLambda(f -> a -> { return null; }, () -> { throw new NullPointerException(); });
+        var nan = new WholeNumeberLambda(f -> a -> { return null; }, () -> { throw new NullPointerException(); });
         assertAsString("NAN", nan);
     }
     
