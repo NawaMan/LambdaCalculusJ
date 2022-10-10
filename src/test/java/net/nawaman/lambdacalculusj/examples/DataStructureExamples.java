@@ -1,6 +1,6 @@
 package net.nawaman.lambdacalculusj.examples;
 
-import static net.nawaman.lambdacalculusj.LambdaCalculus.$$;
+import static net.nawaman.lambdacalculusj.LambdaCalculus.lazy;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.$;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.format;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.lambda;
@@ -21,9 +21,9 @@ class DataStructureExamples {
         var makeValue = lambda("value", x     -> lambda(format("Value[%s]", x), f -> $(f, x)));
         var readValue = lambda("read",  value -> $(value, x -> x));
         
-        var value = $$(makeValue, a);
+        var value = lazy(makeValue, a);
         assertAsString("value(a)",        value);
-        assertAsString("read(value(a))", $$(readValue, value));
+        assertAsString("read(value(a))", lazy(readValue, value));
         assertAsString("a",              $(readValue, value));
     }
     
@@ -37,7 +37,7 @@ class DataStructureExamples {
         var readValue = lambda("read",  value -> $(value, x -> x));
         var mapValue  = lambda("map",   value -> f -> $(makeValue, $(f, $(readValue, value))));
         
-        var value = $$(makeValue, TRUE);
+        var value = lazy(makeValue, TRUE);
         assertAsString("value(TRUE)",  value);
         assertAsString("Value[FALSE]", $(mapValue, value, not));
     }
@@ -48,7 +48,7 @@ class DataStructureExamples {
         var firstOf  = lambda("firstOf",  p -> $(p, lambda(a -> b -> a)));
         var secondOf = lambda("secondOf", p -> $(p, lambda(a -> b -> b)));
         
-        var pair = $$(newPair, a, b);
+        var pair = lazy(newPair, a, b);
         assertAsString("newPair(a)(b)", pair);
         assertAsString("Pair[a,b]",     pair.evaluate());
         assertAsString("a",             $(firstOf,  pair));

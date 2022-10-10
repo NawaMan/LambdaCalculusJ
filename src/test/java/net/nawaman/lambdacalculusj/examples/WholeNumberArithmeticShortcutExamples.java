@@ -1,6 +1,6 @@
 package net.nawaman.lambdacalculusj.examples;
 
-import static net.nawaman.lambdacalculusj.LambdaCalculus.$$;
+import static net.nawaman.lambdacalculusj.LambdaCalculus.lazy;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.$;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.format;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.lambda;
@@ -20,7 +20,7 @@ class WholeNumberArithmeticShortcutExamples {
         var fourty = lambda("40", lambda(f -> a -> $(f, $(f, $(f, $(f, $(f, $(f, $(f, $(f, $(f, $(f, $(f, $(f, $(f, $(f, $(f, $(f, $(f, $(f, $(f, $(f, $(f, $(f, $(f, $(f, $(f, $(f, $(f, $(f, $(f, $(f, $(f, $(f, $(f, $(f, $(f, $(f, $(f, $(f, $(f, $(f, a)))))))))))))))))))))))))))))))))))))))), () -> 40));
         //                                           1    2    3    4    5    6    7    8    9   10   11   12   13   14   15   16   17   18   19   20   21   22   23   24   25   26   27   28   29   30   31   32   33   34   35   36   37   38   39   40
         
-        var successor   = lambda("successor",   n -> lambda(f -> a -> $$(f, $$(n, f, a)), () -> n.intValue() + 1));
+        var successor   = lambda("successor",   n -> lambda(f -> a -> lazy(f, lazy(n, f, a)), () -> n.intValue() + 1));
         var pairOf      = lambda("pairOf",      a -> b -> lambda(format("Pair[%s,%s]", a, b), f -> $(f,a,b)));
         var first       = lambda("first",       p -> $(p, lambda(a -> b -> a)));
         var second      = lambda("second",      p -> $(p, lambda(a -> b -> b)));

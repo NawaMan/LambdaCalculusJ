@@ -91,7 +91,7 @@ public class LambdaCalculus {
      * @param  inputs  the inputs.
      * @return         the result lambda.
      */
-    public static Lambda $$(Lambda lambda, Lambda ... inputs) {
+    public static Lambda lazy(Lambda lambda, Lambda ... inputs) {
         return lambda(lambda, inputs);
     }
     
@@ -121,7 +121,7 @@ public class LambdaCalculus {
         System.arraycopy(inputs, 1, restInputs, 0, restInputs.length);
         
         var newLambda = new LazyLambda(lambda, firstInput);
-        return $$(newLambda, restInputs);
+        return lazy(newLambda, restInputs);
     }
     
     //== Displaying ==
@@ -209,7 +209,7 @@ public class LambdaCalculus {
      * @return              the application result (evaluated).
      */
     public static Lambda show(String description, Lambda lambda, Lambda ... inputs) {
-        var value = $$(lambda, inputs);
+        var value = lazy(lambda, inputs);
         
         var valueString = displayValue(value);
         

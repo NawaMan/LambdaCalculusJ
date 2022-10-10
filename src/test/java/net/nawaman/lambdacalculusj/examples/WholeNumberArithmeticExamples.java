@@ -1,6 +1,6 @@
 package net.nawaman.lambdacalculusj.examples;
 
-import static net.nawaman.lambdacalculusj.LambdaCalculus.$$;
+import static net.nawaman.lambdacalculusj.LambdaCalculus.lazy;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.$;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.format;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.lambda;
@@ -35,7 +35,7 @@ public class WholeNumberArithmeticExamples {
     
     @Test
     void testLiterals_one() {
-        var one = lambda("1", lambda(f -> a -> $$(f, a), () -> 1));
+        var one = lambda("1", lambda(f -> a -> lazy(f, a), () -> 1));
         assertAsString("1", one);
         assertAsString("func(a)", one.apply(func).apply(a));
         assertAsString("a",       one.apply(func).apply(a).evaluate());
@@ -46,7 +46,7 @@ public class WholeNumberArithmeticExamples {
     
     @Test
     void testLiterals_two() {
-        var two = lambda("2", lambda(f -> a -> $$(f, $$(f, a)), () -> 2));
+        var two = lambda("2", lambda(f -> a -> lazy(f, lazy(f, a)), () -> 2));
         assertAsString("2", two);
         assertAsString("func(func(a))", two.apply(func).apply(a));
         assertAsString("a",             two.apply(func).apply(a).evaluate());
@@ -58,7 +58,7 @@ public class WholeNumberArithmeticExamples {
     
     @Test
     void testLiterals_five() {
-        var five = lambda("5", lambda(f -> a -> $$(f, $$(f, $$(f, $$(f, $$(f, a))))), () -> 5));
+        var five = lambda("5", lambda(f -> a -> lazy(f, lazy(f, lazy(f, lazy(f, lazy(f, a))))), () -> 5));
         assertAsString("5", five);
         assertAsString("func(func(func(func(func(a)))))", five.apply(func).apply(a));
         assertAsString("a",                               five.apply(func).apply(a).evaluate());
@@ -79,7 +79,7 @@ public class WholeNumberArithmeticExamples {
             return x;
         });
         
-        var five = lambda("5", lambda(f -> a -> $$(f, $$(f, $$(f, $$(f, $$(f, a))))), () -> 5));
+        var five = lambda("5", lambda(f -> a -> lazy(f, lazy(f, lazy(f, lazy(f, lazy(f, a))))), () -> 5));
         assertAsString("eat(eat(eat(eat(eat(cookie)))))", five.apply(eat).apply(cookie));
         
         five.apply(eat).apply(cookie).evaluate();
@@ -115,7 +115,7 @@ public class WholeNumberArithmeticExamples {
         
         //== Two ==
         
-        var twoDirect = lambda("2", lambda(f -> a -> $$(f, $$(f, a)), () -> 2));
+        var twoDirect = lambda("2", lambda(f -> a -> lazy(f, lazy(f, a)), () -> 2));
         var twoShort  = wholeNumber(2);
         
         logs.clear();
@@ -134,7 +134,7 @@ public class WholeNumberArithmeticExamples {
         
         //== Five ==
         
-        var fiveDirect = lambda("5", lambda(f -> a -> $$(f, $$(f, $$(f, $$(f, $$(f, a))))), () -> 5));
+        var fiveDirect = lambda("5", lambda(f -> a -> lazy(f, lazy(f, lazy(f, lazy(f, lazy(f, a))))), () -> 5));
         var fiveShort  = wholeNumber(5);
         
         logs.clear();
@@ -169,7 +169,7 @@ public class WholeNumberArithmeticExamples {
         
         var TRUE  = lambda("TRUE",  x -> y -> x);
         var FALSE = lambda("FALSE", x -> y -> y);
-        var not   = lambda("not",   bool -> $$(bool, FALSE, TRUE));
+        var not   = lambda("not",   bool -> $(bool, FALSE, TRUE));
         var isOdd = lambda("isOdd", n -> n.apply(not).apply(FALSE).evaluate());
         
         assertAsString("zero is even (not an odd).", "FALSE", isOdd.apply(zero));
@@ -182,7 +182,7 @@ public class WholeNumberArithmeticExamples {
     
     @Test
     void testSuccessor() {
-        var successor = lambda("successor", n -> lambda(f -> a -> $$(f, $$(n, f, a)), () -> n.intValue() + 1));
+        var successor = lambda("successor", n -> lambda(f -> a -> lazy(f, lazy(n, f, a)), () -> n.intValue() + 1));
         
         var cookie = lambda("cookie", x -> x);
         var eat    = lambda("eat", x -> {
@@ -194,37 +194,37 @@ public class WholeNumberArithmeticExamples {
         var zero = lambda(f -> a -> a, () -> 0);
         assertAsString("0", zero);
         assertAsString("0", zero.intValue());
-        assertAsString("0(eat)(cookie)", $$(zero, eat, cookie));
+        assertAsString("0(eat)(cookie)", lazy(zero, eat, cookie));
         zero.apply(eat).apply(cookie).evaluate();
         assertAsString("[]", logs);
         
         logs.clear();
-        var one = $$(successor, zero);
+        var one = lazy(successor, zero);
         assertAsString("successor(0)",              one);
         assertAsString("1",                         one.intValue());
-        assertAsString("successor(0)(eat)(cookie)", $$(one, eat, cookie));
-        $$(one, eat, cookie).evaluate();
+        assertAsString("successor(0)(eat)(cookie)", lazy(one, eat, cookie));
+        lazy(one, eat, cookie).evaluate();
         assertAsString("["
                         + "eat(0(eat)(cookie))"
                         + "]", logs);
         
         logs.clear();
-        var two = $$(successor, one);
+        var two = lazy(successor, one);
         assertAsString("successor(successor(0))",              two);
         assertAsString("2",                                    two.intValue());
-        assertAsString("successor(successor(0))(eat)(cookie)", $$(two, eat, cookie));
-        $$(two, eat, cookie).evaluate();
+        assertAsString("successor(successor(0))(eat)(cookie)", lazy(two, eat, cookie));
+        lazy(two, eat, cookie).evaluate();
         assertAsString("["
                         + "eat(successor(0)(eat)(cookie)), "
                         + "eat(0(eat)(cookie))"
                         + "]", logs);
         
         logs.clear();
-        var three = $$(successor, two);
+        var three = lazy(successor, two);
         assertAsString("successor(successor(successor(0)))",              three);
         assertAsString("3",                                               three.intValue());
-        assertAsString("successor(successor(successor(0)))(eat)(cookie)", $$(three, eat, cookie));
-        $$(three, eat, cookie).evaluate();
+        assertAsString("successor(successor(successor(0)))(eat)(cookie)", lazy(three, eat, cookie));
+        lazy(three, eat, cookie).evaluate();
         assertAsString("["
                         + "eat(successor(successor(0))(eat)(cookie)), "
                         + "eat(successor(0)(eat)(cookie)), "
@@ -232,11 +232,11 @@ public class WholeNumberArithmeticExamples {
                         + "]", logs);
         
         logs.clear();
-        var five = $$(successor, $$(successor, $$(successor, $$(successor, $$(successor, zero)))));
+        var five = lazy(successor, lazy(successor, lazy(successor, lazy(successor, lazy(successor, zero)))));
         assertAsString("successor(successor(successor(successor(successor(0)))))",              five);
         assertAsString("5",                                            five.intValue());
-        assertAsString("successor(successor(successor(successor(successor(0)))))(eat)(cookie)", $$(five, eat, cookie));
-        $$(five, eat, cookie).evaluate();
+        assertAsString("successor(successor(successor(successor(successor(0)))))(eat)(cookie)", lazy(five, eat, cookie));
+        lazy(five, eat, cookie).evaluate();
         assertAsString("["
                         + "eat(successor(successor(successor(successor(0))))(eat)(cookie)), "
                         + "eat(successor(successor(successor(0)))(eat)(cookie)), "
@@ -248,7 +248,7 @@ public class WholeNumberArithmeticExamples {
     
     @Test
     void testSuccessor_another() {
-        var successor = lambda("successor", n -> lambda(f -> a -> $$(f, $$(n, f, a)), () -> n.intValue() + 1));
+        var successor = lambda("successor", n -> lambda(f -> a -> lazy(f, lazy(n, f, a)), () -> n.intValue() + 1));
         
         var cookie = lambda("cookie", x -> x);
         var eat    = lambda("eat", x -> {
@@ -258,10 +258,10 @@ public class WholeNumberArithmeticExamples {
         
         logs.clear();
         var zero = lambda(f -> a -> a, () -> 0);
-        var two  = $$(successor, $$(successor, zero));
+        var two  = lazy(successor, lazy(successor, zero));
         
         // == Use $(...) ==
-        var eatTwoCookies$ = $$(two, eat, cookie);
+        var eatTwoCookies$ = lazy(two, eat, cookie);
         logs.clear();
         assertAsString("successor(successor(0))(eat)(cookie)", eatTwoCookies$);
         assertAsString("[]", logs);
@@ -292,11 +292,11 @@ public class WholeNumberArithmeticExamples {
         var successor = lambda("successor", n -> lambda(f -> a -> $(f, $(n, f, a)), () -> n.intValue() + 1));
         var add       = lambda("add",       n -> m -> $($(n, successor), m));
         
-        assertAsString("add(2)(3)", $$(add, wholeNumber(2), wholeNumber(3)));
+        assertAsString("add(2)(3)", lazy(add, wholeNumber(2), wholeNumber(3)));
         assertAsString("5",         $(add, wholeNumber(2), wholeNumber(3)));
         
-        var five = $$(add, wholeNumber(2), wholeNumber(3));
-        assertAsString("add(3)(add(2)(3))", $$(add, wholeNumber(3), five));
+        var five = lazy(add, wholeNumber(2), wholeNumber(3));
+        assertAsString("add(3)(add(2)(3))", lazy(add, wholeNumber(3), five));
         assertAsString("8",                 $(add, wholeNumber(3), five));
     }
     
@@ -308,11 +308,11 @@ public class WholeNumberArithmeticExamples {
         
         var two   = wholeNumber(2);
         var three = wholeNumber(3);
-        assertAsString("multiply(2)(3)", $$(multiply, two, three));
+        assertAsString("multiply(2)(3)", lazy(multiply, two, three));
         assertAsString("6",              $(multiply, two, three));
         
-        var six = $$(multiply, two, three);
-        assertAsString("multiply(3)(multiply(2)(3))", $$(multiply, three, six));
+        var six = lazy(multiply, two, three);
+        assertAsString("multiply(3)(multiply(2)(3))", lazy(multiply, three, six));
         assertAsString("18",                          $(multiply, three, six));
     }
     
@@ -324,11 +324,11 @@ public class WholeNumberArithmeticExamples {
         var multiply  = lambda("multiply",  n -> m -> $(m, $(n, successor), zero));
         var power     = lambda("power",     n -> p -> $($(p, $(multiply, n), one)));
         
-        assertAsString("power(2)(3)", $$(power, wholeNumber(2), wholeNumber(3)));
+        assertAsString("power(2)(3)", lazy(power, wholeNumber(2), wholeNumber(3)));
         assertAsString("8",           $(power,  wholeNumber(2), wholeNumber(3)));
         
-        var eight = $$(power, wholeNumber(2), wholeNumber(3));
-        assertAsString("power(2)(power(2)(3))", $$(power, wholeNumber(2), eight));
+        var eight = lazy(power, wholeNumber(2), wholeNumber(3));
+        assertAsString("power(2)(power(2)(3))", lazy(power, wholeNumber(2), eight));
         assertAsString("256",                   $(power, wholeNumber(2), eight));
     }
     

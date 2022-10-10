@@ -1,6 +1,6 @@
 package net.nawaman.lambdacalculusj.examples;
 
-import static net.nawaman.lambdacalculusj.LambdaCalculus.$$;
+import static net.nawaman.lambdacalculusj.LambdaCalculus.lazy;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.$;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.format;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.lambda;
@@ -42,9 +42,9 @@ class RecursiveExamples {
     @Test
     void testFactorial() {
         var almostFactorial = lambda("almostFactorial", f -> n -> {
-            return $$($(isZero, n), one, $$(multiply, n, $$(f, f, $$(predecessor, n))));
+            return lazy($(isZero, n), one, lazy(multiply, n, lazy(f, f, lazy(predecessor, n))));
         });
-        var factorial = $$(almostFactorial, almostFactorial);
+        var factorial = lazy(almostFactorial, almostFactorial);
         assertAsString("1",  $(factorial, zero));
         assertAsString("1",  $(factorial, one));
         assertAsString("2",  $(factorial, two));
@@ -54,8 +54,8 @@ class RecursiveExamples {
     
     @Test
     void testFactorial_yCombinator() {
-        var yCombinator = lambda("Y", g -> $$(lambda("Y'", x -> $$(g, $$(x, x))), lambda("Y''", x -> $$(g, $$(x, x)))));
-        var factorial   = $$(yCombinator, r -> n -> $$($(isZero, n), one, $$(multiply, n, $$(r, $$(predecessor, n)))));
+        var yCombinator = lambda("Y", g -> lazy(lambda("Y'", x -> lazy(g, lazy(x, x))), lambda("Y''", x -> lazy(g, lazy(x, x)))));
+        var factorial   = lazy(yCombinator, r -> n -> lazy($(isZero, n), one, lazy(multiply, n, lazy(r, lazy(predecessor, n)))));
         assertAsString("1",  $(factorial, zero));
         assertAsString("1",  $(factorial, one));
         assertAsString("2",  $(factorial, two));
@@ -65,8 +65,8 @@ class RecursiveExamples {
     
     @Test
     void testFibonacci() {
-        var yCombinator = lambda("Y", g -> $$(lambda("Y'", x -> $$(g, $$(x, x))), lambda("Y''", x -> $$(g, $$(x, x)))));
-        var fibonacci   = $$(yCombinator, lambda(r -> n -> $$($(lessOrEqual, n, two), one, $$(add, $$(r, $$(predecessor, n)), $$(r, $$(predecessor, $$(predecessor, n)))))));
+        var yCombinator = lambda("Y", g -> lazy(lambda("Y'", x -> lazy(g, lazy(x, x))), lambda("Y''", x -> lazy(g, lazy(x, x)))));
+        var fibonacci   = lazy(yCombinator, lambda(r -> n -> lazy($(lessOrEqual, n, two), one, lazy(add, lazy(r, lazy(predecessor, n)), lazy(r, lazy(predecessor, lazy(predecessor, n)))))));
         assertAsString("1",  $(fibonacci, one));
         assertAsString("1",  $(fibonacci, two));
         assertAsString("2",  $(fibonacci, three));
