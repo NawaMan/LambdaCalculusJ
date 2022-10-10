@@ -34,7 +34,6 @@ public interface Combinators {
     public static final Lambda lark        = lambda("lark",     a -> b ->            $(a, $(b, b)));
     public static final Lambda owl         = lambda("owl",      a -> b ->            $(b, $(a, b)));
     public static final Lambda phoenix     = lambda("phoenix",  a -> b -> c -> d ->  $(a, $(b, d), $(c, d)));
-    public static final Lambda psi         = lambda("psi",      a -> b -> c -> d ->  $(a, $(b, c), $(b, d)));
     public static final Lambda queer       = lambda("queer",    a -> b -> c ->       $(b, $(a, c)));
     public static final Lambda robin       = lambda("robin",    a -> b -> c ->       $(b, c, a));
     public static final Lambda starling    = lambda("starling", a -> b -> c ->       $(a, c, $(b, c)));  // <*>
@@ -43,14 +42,17 @@ public interface Combinators {
     public static final Lambda vireo       = lambda("vireo",    a -> b -> c ->       $(c, a, b));
     public static final Lambda warbler     = lambda("warbler",  a -> b ->            $(a, b, b));
     
-    public static final Lambda iota  = lambda("iota",   f ->  $(f, $(a -> b -> c -> $(a,c, $(b,c))), $(x -> y -> x)));
-    public static final Lambda omega = lambda("omega",  a ->  $($(a, a), $(a, a)));
-    
+    public static final Lambda iota  = lambda("iota",   f ->                 $(f, $(a -> b -> c -> $(a,c, $(b,c))), $(x -> y -> x)));
+    public static final Lambda omega = lambda("omega",  a ->                 $($(a, a), $(a, a)));
+    public static final Lambda psi   = lambda("psi",    a -> b -> c -> d ->  $(a, $(b, c), $(b, d)));
+
+    public static final Lambda I = iota;
+    public static final Lambda Ψ = psi;
     public static final Lambda Ω = omega;
     
     public static final Lambda B  = bluebird;
     public static final Lambda C  = flip;
-    public static final Lambda I  = identity;
+    public static final Lambda Id = identity;
     public static final Lambda K  = constant;
     public static final Lambda KI = kite;
     public static final Lambda M  = repeat;
@@ -64,7 +66,7 @@ public interface Combinators {
     public static final Lambda U  = turing;
     public static final Lambda V  = vireo;
     public static final Lambda W  = warbler;
-    public static final Lambda Y = lambda("Y", g -> lazy(lambda(x -> lazy(g, lazy(x, x))),
-                                                         lambda(x -> lazy(g, lazy(x, x)))));
+    public static final Lambda Y = lambda("Y", g ->  lazy(lambda(x -> lazy(g, lazy(x, x))),
+                                                          lambda(x -> lazy(g, lazy(x, x)))));
     
 }
