@@ -26,6 +26,16 @@ class LambdaCalculusTest {
         var lambda = lambda(x -> y -> x);
         assertAsString("lambda(*)", lambda);
         assertAsString("a",         lambda.apply(a).apply(b));
+        
+        // Force no parameters
+        var lambda2 = lambda(x -> y -> x, new Lambda[0]);
+        assertAsString("lambda(*)", lambda2);
+        assertAsString("a",         lambda2.apply(a).apply(b));
+        
+        // Lazy with force no parameters
+        var lambda3 = lambda(lazy(a -> a, lambda(b -> b)), new Lambda[0]);
+        assertAsString("lambda(*)(lambda(*))", lambda3);
+        assertAsString("a",                    lambda3.apply(a));
     }
     
     @Test
@@ -119,6 +129,9 @@ class LambdaCalculusTest {
         
         var notNumber = lambda(f -> a -> f);
         assertAsString("null", intValue(notNumber));
+        
+        var notNumber2 = lambda(f -> a -> $(f, lambda(true)));
+        assertAsString("null", intValue(notNumber2));
     }
     
     @Test

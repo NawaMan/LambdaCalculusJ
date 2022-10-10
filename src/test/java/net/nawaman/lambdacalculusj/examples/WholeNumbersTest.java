@@ -4,9 +4,11 @@ import static net.nawaman.lambdacalculusj.LambdaCalculus.$;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.lambda;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.wholeNumber;
 import static net.nawaman.lambdacalculusj.TestHelper.assertAsString;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.Test;
 
+import net.nawaman.lambdacalculusj.LambdaCalculus;
 import net.nawaman.lambdacalculusj.WholeNumbers;
 
 class WholeNumbersTest implements WholeNumbers {
@@ -158,13 +160,41 @@ class WholeNumbersTest implements WholeNumbers {
     }
     
     @Test
-    void testNumberComparison_notNumber() {
-        assertAsString("false", $(equal, wholeNumber(1), lambda(f -> a -> lambda(true))));
-    }
-    @Test
     void testIsNumber() {
         assertAsString("true",  $(isNumber, wholeNumber(1)));
         assertAsString("false", $(isNumber, lambda(f -> a -> lambda(true))));
+    }
+    
+    @Test
+    void testSuccessor_notNumber() {
+        try {
+            $(successor, lambda(true));
+        } catch (NullPointerException e) {
+            // Expected
+        }
+    }
+    
+    @Test
+    void testAdd_notNumber() {
+        try {
+            $(add, lambda(true), wholeNumber(1));
+            fail("Expect NullPointerException!");
+        } catch (NullPointerException e) {
+            // Expected
+        }
+        
+        try {
+            $(add, wholeNumber(1), lambda(true));
+            fail("Expect NullPointerException!");
+        } catch (NullPointerException e) {
+            // Expected
+        }
+    }
+    
+    @Test
+    void testNumberComparison_notNumber() {
+        assertAsString("false", $(equal, wholeNumber(1), lambda(f -> a -> lambda(true))));
+        assertAsString("false", $(equal, lambda(f -> a -> lambda(true)), wholeNumber(1)));
     }
     
 }

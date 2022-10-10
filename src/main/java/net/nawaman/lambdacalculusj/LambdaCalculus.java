@@ -92,6 +92,11 @@ public class LambdaCalculus {
      * @return         the result lambda.
      */
     public static Lambda lazy(Lambda lambda, Lambda ... inputs) {
+        if (!(lambda instanceof LambdaWrapper)
+         && !(lambda instanceof LazyLambda)) {
+            lambda = lambda(lambda);
+        }
+        
         return lambda(lambda, inputs);
     }
     
@@ -104,7 +109,8 @@ public class LambdaCalculus {
      */
     public static Lambda lambda(Lambda lambda, Lambda ... inputs) {
         if (inputs.length == 0) {
-            if ((lambda instanceof LambdaWrapper) || (lambda instanceof LazyLambda)) {
+            if ((lambda instanceof LambdaWrapper)
+             || (lambda instanceof LazyLambda)) {
                 return lambda;
             }
             
