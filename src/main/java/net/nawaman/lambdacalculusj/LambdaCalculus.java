@@ -19,7 +19,7 @@ public class LambdaCalculus {
      * @param  lambda  the input lambda.
      * @return         the lambda.
      */
-    public static Lambda wholeNumber(Lambda lambda) {
+    public static Lambda lambda(Lambda lambda) {
         return new LambdaWrapper(null, lambda);
     }
     
