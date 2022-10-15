@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.Test;
 
-import net.nawaman.lambdacalculusj.LambdaCalculus;
 import net.nawaman.lambdacalculusj.WholeNumbers;
 
 class WholeNumbersTest implements WholeNumbers {

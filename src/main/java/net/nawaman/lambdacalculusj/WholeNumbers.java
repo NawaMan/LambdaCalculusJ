@@ -14,7 +14,7 @@ import java.util.function.IntBinaryOperator;
 import java.util.function.IntPredicate;
 import java.util.function.IntUnaryOperator;
 
-class ArithmeticsHelper {
+interface ArithmeticsHelper {
     
     static Integer mapInt(Lambda input, IntUnaryOperator action) {
         var intValue = intValue(input);
