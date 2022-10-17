@@ -32,10 +32,14 @@ public class LazyLambda implements Lambda {
     
     @Override
     public Lambda evaluate() {
-        return lambda
-                .evaluate()
-                .apply(input)
-                .evaluate();
+        try {
+            return lambda
+                    .evaluate()
+                    .apply(input)
+                    .evaluate();
+        } catch (StackOverflowError e) {
+            throw new RuntimeException("StackOverflow while applying lambda=[" + lambda + "] with input=[" + input + "].", e);
+        }
     }
     
     @Override

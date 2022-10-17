@@ -15,7 +15,11 @@ public class LambdaWrapper implements Lambda {
     
     @Override
     public Lambda apply(Lambda input) {
-        return lambda.apply(input);
+        try {
+            return lambda.apply(input);
+        } catch (StackOverflowError e) {
+            throw new RuntimeException("StackOverflow while applying lambda=[" + lambda + "] with input=[" + input + "].", e);
+        }
     }
     
     @Override

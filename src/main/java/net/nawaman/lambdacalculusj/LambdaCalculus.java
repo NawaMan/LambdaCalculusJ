@@ -19,6 +19,37 @@ public class LambdaCalculus {
      * @param  lambda  the input lambda.
      * @return         the lambda.
      */
+    public static Lambda λ(Lambda lambda) {
+        return lambda(lambda);
+    }
+    
+    /**
+     * Create a lambda. This is used to convert Java lambda expression to Lambda Calculus lambda.
+     * 
+     * @param  lambda  the input lambda.
+     * @return         the lambda.
+     */
+    public static Lambda λ(String name, Lambda lambda) {
+        return lambda(name, lambda);
+    }
+    
+    /**
+     * Create a lambda that has integer value.
+     * 
+     * @param  lambda    the input lambda.
+     * @param  intValue  the supplier for the integer value.
+     * @return           the lambda.
+     */
+    public static Lambda λ(Lambda lambda, Supplier<Integer> intValue) {
+        return lambda(lambda, intValue);
+    }
+    
+    /**
+     * Create a lambda. This can be used to create Lambda Calculus lambda from Java lambda expression.
+     * 
+     * @param  lambda  the input lambda.
+     * @return         the lambda.
+     */
     public static Lambda lambda(Lambda lambda) {
         return new LambdaWrapper(null, lambda);
     }

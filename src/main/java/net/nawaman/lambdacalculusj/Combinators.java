@@ -97,13 +97,60 @@ public interface Combinators {
     public static final Lambda Y = lambda("Y", g ->  lazy(lambda(x -> lazy(g, lazy(x, x))),
                                                           lambda(x -> lazy(g, lazy(x, x)))));
     
-    //== N-combinator -- Nightingale (or Nawa :-p)
+    //== N-combinators -- Nightingale (or Nawa :-p)
+    /*
+     * The intend of the N-combinators is to be used as let-block.
+     * In an imperative language, we can declare a constant and which is usable for the rest of the block.
+     * That is not available in functional programming language directly. Some language use syntactic sugar to allow that.
+     * And some use do-notation (monad binding) to archive that.
+     * 
+     * N-combinator is intended to be used for that purpose.
+     * 
+     * Let say we want to write ...
+     * 
+     * // a block
+     * {
+     *     ...
+     *     let x = ...;
+     *     // x was computed above once and can be used here and for the rest of the block -- as many time as needed.
+     *     ...
+     * }
+     * 
+     * So If given `N a b = b a`, Allow the value of `a` to be computed first and given to `b` as a parameter.
+     * 
+     * For example:
+     * {
+     *     ...
+     *     let x = 4 + 1
+     *     return x*x + x + 5
+     * }
+     * 
+     * Can be written as:
+     * N (4 + 1) (x -> x*x + x + 5)
+     * = (4 + 1)*(4 + 1) + (4 + 1) + 5
+     * = 25 + 5 + 5
+     * = 35
+     * 
+     * If more than one variable is needed, the N2... N6 version can be used.
+     * With Nn, each subsequence let can use the earlier value
+     * 
+     * N2 (4 + 1) (x -> 2*x + 1) (x -> y -> x*x + y*y + 5)
+     * 
+     * which is equivalent to
+     * 
+     * {
+     *     let x = 4   + 1
+     *     let y = 2*x + 1
+     *     return x*x + y*y + 5
+     * }
+     * 
+     */
     
-    public static final Lambda N  = lambda("N",  a -> b ->                           $(b, a));
-    public static final Lambda N2 = lambda("N2", a -> b -> c ->                      $(c, a, $(N, a, b)));
-    public static final Lambda N3 = lambda("N3", a -> b -> c -> d ->                 $(d, a, $(N, a, b), $(N2, a, b, c)));
-    public static final Lambda N4 = lambda("N4", a -> b -> c -> d -> e ->            $(e, a, $(N, a, b), $(N2, a, b, c), $(N3, a, b, c, d)));
-    public static final Lambda N5 = lambda("N5", a -> b -> c -> d -> e -> f ->       $(f, a, $(N, a, b), $(N2, a, b, c), $(N3, a, b, c, d), $(N4, a, b, c, d, e)));
-    public static final Lambda N6 = lambda("N6", a -> b -> c -> d -> e -> f -> g ->  $(g, a, $(N, a, b), $(N2, a, b, c), $(N3, a, b, c, d), $(N4, a, b, c, d, e), $(N5, a, b, c, d, e, f)));
+    public static final Lambda N  = lambda("N",  a -> b ->                      $(b, a));
+    public static final Lambda N1 = N;
+    public static final Lambda N2 = lambda("N2", a -> b -> c ->                 $(N, $(b, a), lambda(x ->      $(c, a, x))));
+    public static final Lambda N3 = lambda("N3", a -> b -> c -> d ->            $(N, $(b, a), lambda(x -> $(N, $(c, a, x), lambda(y ->      $(d, a, x, y))))));
+    public static final Lambda N4 = lambda("N4", a -> b -> c -> d -> e ->       $(N, $(b, a), lambda(x -> $(N, $(c, a, x), lambda(y -> $(N, $(d, a, x, y), lambda(z ->      $(e, a, x, y, z))))))));
+    public static final Lambda N5 = lambda("N5", a -> b -> c -> d -> e -> f ->  $(N, $(b, a), lambda(x -> $(N, $(c, a, x), lambda(y -> $(N, $(d, a, x, y), lambda(z -> $(N, $(e, a, x, y, z), lambda(w -> $(f, a, x, y, z, w))))))))));
     
 }
