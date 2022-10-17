@@ -18,7 +18,7 @@ public class LambdaWrapper implements Lambda {
         try {
             return lambda.apply(input);
         } catch (StackOverflowError e) {
-            throw new RuntimeException("StackOverflow while applying lambda=[" + lambda + "] with input=[" + input + "].", e);
+            throw new LazyEvaluatingLambdaException(lambda, input, e);
         }
     }
     

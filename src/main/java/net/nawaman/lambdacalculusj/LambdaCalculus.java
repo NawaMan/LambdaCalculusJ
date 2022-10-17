@@ -188,7 +188,7 @@ public class LambdaCalculus {
                 valueString = lambda.toString();
             }
             
-        } catch (StackOverflowError error) {
+        } catch (LazyEvaluatingLambdaException error) {
             valueString = lambda.toString() + "'";
         }
         return valueString;

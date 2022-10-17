@@ -38,7 +38,7 @@ public class LazyLambda implements Lambda {
                     .apply(input)
                     .evaluate();
         } catch (StackOverflowError e) {
-            throw new RuntimeException("StackOverflow while applying lambda=[" + lambda + "] with input=[" + input + "].", e);
+            throw new LazyEvaluatingLambdaException(lambda, input, e);
         }
     }
     
