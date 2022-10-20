@@ -1,9 +1,9 @@
 package net.nawaman.lambdacalculusj.examples;
 
-import static net.nawaman.lambdacalculusj.LambdaCalculus.lazy;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.$;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.format;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.lambda;
+import static net.nawaman.lambdacalculusj.LambdaCalculus.lazy;
 import static net.nawaman.lambdacalculusj.LambdaCalculus.wholeNumber;
 import static net.nawaman.lambdacalculusj.TestHelper.assertAsString;
 
@@ -23,16 +23,15 @@ class RecursiveExamples {
     private final Lambda TRUE  = lambda("TRUE",  x -> y -> x);
     private final Lambda FALSE = lambda("FALSE", x -> y -> y);
     
-    private final Lambda successor   = lambda("successor", n -> lambda(f -> a -> $(f, $(n, f, a)), () -> n.intValue() + 1));
-    private final Lambda multiply    = lambda("mul", m -> n -> $(m, $(n, successor), zero));
-    private final Lambda falseOrElse = $(lambda(a -> b -> a), FALSE);
-    private final Lambda isZero      = lambda("isZero", n -> $(n, falseOrElse, TRUE));
+    private final Lambda successor   = lambda("successor", n ->      lambda(f -> a -> $(f, $(n, f, a)), () -> n.intValue() + 1));
+    private final Lambda multiply    = lambda("multiply",  m -> n -> $(m, $(n, successor), zero));
+    private final Lambda isZero      = lambda("isZero",    n ->      $(n, $(lambda(a -> b -> a), FALSE), TRUE));
     
     private final Lambda newPair     = lambda("newPair",     a -> b -> lambda(format("Pair[%s,%s]", a, b), f -> $(f,a,b)));
-    private final Lambda firstOf     = lambda("firstOf",     p -> $(p, lambda(a -> b -> a)));
-    private final Lambda secondOf    = lambda("secondOf",    p -> $(p, lambda(a -> b -> b)));
-    private final Lambda transform   = lambda("transform",   p -> $(newPair, $(secondOf, p), $(successor, $(secondOf, p))));
-    private final Lambda predecessor = lambda("predecessor", n -> $(firstOf, $($(n, transform), $(newPair, zero, zero))));
+    private final Lambda firstOf     = lambda("firstOf",     p ->      $(p, lambda(a -> b -> a)));
+    private final Lambda secondOf    = lambda("secondOf",    p ->      $(p, lambda(a -> b -> b)));
+    private final Lambda transform   = lambda("transform",   p ->      $(newPair, $(secondOf, p), $(successor, $(secondOf, p))));
+    private final Lambda predecessor = lambda("predecessor", n ->      $(firstOf, $($(n, transform), $(newPair, zero, zero))));
     
     private final Lambda add         = lambda("add",         n -> m -> $($(n, successor), m));
     private final Lambda subtract    = lambda("subtract",    n -> k -> $($(k, predecessor), n));
