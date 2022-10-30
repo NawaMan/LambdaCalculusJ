@@ -1,5 +1,6 @@
 
-group = theGroup
+group   = theGroup
+version = theVersion
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
@@ -14,7 +15,6 @@ repositories {
     mavenLocal()
     mavenCentral()
 }
-
 
 dependencies {
     // == Test ==
@@ -101,9 +101,9 @@ publishing {
             }
             
             if (isSnapshotVersion) {
-                url "https://oss.sonatype.org/content/repositories/snapshots/"
+                url "https://s01.oss.sonatype.org/content/repositories/snapshots/"
             } else {
-                url "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+                url "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
             }
         }
     }
@@ -121,7 +121,7 @@ javadoc {
         setMemberLevel JavadocMemberLevel.PUBLIC
         setAuthor true
         
-        links "https://docs.oracle.com/javase/8/docs/api/"
+        links "https://docs.oracle.com/javase/11/docs/api/"
     }
 }
 
@@ -140,8 +140,7 @@ artifacts {
     archives javadocJar, sourceJar
 }
 
-archivesBaseName = "${project.name}"
-version          = "${project.version}"
+archivesBaseName = theProject
 
 // == Annotation processor
 
