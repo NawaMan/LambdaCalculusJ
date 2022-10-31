@@ -17,7 +17,7 @@ You can write something like:
   - automatically create valid lambda for boolean
   - automatically create valid lambda for whole number
 - [`LambdaCalculus`](https://github.com/NawaMan/LambdaCalculusJ/blob/main/src/main/java/net/nawaman/lambdacalculusj/LambdaCalculus.java) utility class
-  - Create a Lambda quickly with [`λ(...)`](https://github.com/NawaMan/LambdaCalculusJ/blob/main/src/main/java/net/nawaman/lambdacalculusj/LambdaCalculus.java#L22) and with [`lambda(...)`](https://github.com/NawaMan/LambdaCalculusJ/blob/main/src/main/java/net/nawaman/lambdacalculusj/LambdaCalculus.java#L53) method.
+  - Create a Lambda quickly with [`λ(...)`](https://github.com/NawaMan/LambdaCalculusJ/blob/main/src/main/java/net/nawaman/lambdacalculusj/LambdaCalculus.java#L22) or with [`lambda(...)`](https://github.com/NawaMan/LambdaCalculusJ/blob/main/src/main/java/net/nawaman/lambdacalculusj/LambdaCalculus.java#L53) method.
   - Create a Lambda quickly for whole number function -- [`wholeNumber(...)`](https://github.com/NawaMan/LambdaCalculusJ/blob/main/src/main/java/net/nawaman/lambdacalculusj/LambdaCalculus.java#L86).
   - Create a Lambda with printable name ([here](https://github.com/NawaMan/LambdaCalculusJ/blob/main/src/main/java/net/nawaman/lambdacalculusj/LambdaCalculus.java#L32) and [here](https://github.com/NawaMan/LambdaCalculusJ/blob/main/src/main/java/net/nawaman/lambdacalculusj/LambdaCalculus.java#L63)).
   - Eager application with [`$(...)`](https://github.com/NawaMan/LambdaCalculusJ/blob/main/src/main/java/net/nawaman/lambdacalculusj/LambdaCalculus.java#L114).
