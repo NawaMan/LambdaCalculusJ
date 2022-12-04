@@ -68,26 +68,26 @@ publishing {
             artifact javadocJar
             
             pom {
-                name        = project_name
-                description = project_desc
-                url         = project_link
+                name        = projectName
+                description = projectDesc
+                url         = projectLink
                 licenses {
                     license {
-                        name = license_name
-                        url  = license_link
+                        name = licenseName
+                        url  = licenseLink
                     }
                 }
                 developers {
                     developer {
-                        id    = developer_id
-                        name  = developer_name
-                        email = developer_email
+                        id    = developerId
+                        name  = developerName
+                        email = developerEmail
                     }
                 }
                 scm {
-                    connection          = 'scm:git:git://' + code_repository + '.git'
-                    developerConnection = 'http://' + code_repository
-                    url                 = 'http://' + code_repository + '/tree/master'
+                    connection          = 'scm:git:git://' + codeRepositoryBase + '.git'
+                    developerConnection = 'http://' + codeRepositoryBase
+                    url                 = 'http://' + codeRepositoryBase + '/tree/master'
                 }
             }
         }
@@ -101,9 +101,9 @@ publishing {
             }
             
             if (isSnapshotVersion) {
-                url artifact_repository + "/content/repositories/snapshots/"
+                url artifactRepository + "/content/repositories/snapshots/"
             } else {
-                url artifact_repository + "/service/local/staging/deploy/maven2/"
+                url artifactRepository + "/service/local/staging/deploy/maven2/"
             }
         }
     }
