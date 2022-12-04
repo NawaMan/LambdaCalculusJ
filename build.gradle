@@ -68,26 +68,26 @@ publishing {
             artifact javadocJar
             
             pom {
-                name        = 'LambdaCalculusJ'
-                description = 'Brining functional goodies to Java'
-                url         = 'https://github.com/NawaMan/LambdaCalculusJ'
+                name        = project_name
+                description = project_desc
+                url         = project_link
                 licenses {
                     license {
-                        name = 'MIT License'
-                        url  = 'http://www.opensource.org/licenses/MIT'
+                        name = license_name
+                        url  = license_link
                     }
                 }
                 developers {
                     developer {
-                        id    = 'NawaMan'
-                        name  = 'Nawapunth Manusitthipol'
-                        email = 'nawa@nawaman.net'
+                        id    = developer_id
+                        name  = developer_name
+                        email = developer_email
                     }
                 }
                 scm {
-                    connection          = 'scm:git:git://github.com/NawaMan/LambdaCalculusJ.git'
-                    developerConnection = 'scm:git:ssh://github.com/NawaMan/LambdaCalculusJ.git'
-                    url                 = 'http://github.com/NawaMan/LambdaCalculusJ/tree/master'
+                    connection          = 'scm:git:git://' + code_repository + '.git'
+                    developerConnection = 'http://' + code_repository
+                    url                 = 'http://' + code_repository + '/tree/master'
                 }
             }
         }
@@ -101,9 +101,9 @@ publishing {
             }
             
             if (isSnapshotVersion) {
-                url "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+                url artifact_repository + "/content/repositories/snapshots/"
             } else {
-                url "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+                url artifact_repository + "/service/local/staging/deploy/maven2/"
             }
         }
     }
