@@ -4,6 +4,8 @@ import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.Objects;
 import java.util.function.Supplier;
 
@@ -61,6 +63,24 @@ public class TestHelper {
         
         var message = failureMessage.get();
         assertEquals(expected, actualAsString, message);
+    }
+    
+    @FunctionalInterface
+    public static interface FailableRunnable {
+        public void run() throws Exception;
+    }
+    
+    public static String captureOut(FailableRunnable body)  throws Exception {
+        var originalPrintStream = System.out;
+        var outputBuffer      = new ByteArrayOutputStream();
+        var outputPrintStream = new PrintStream(outputBuffer);
+        System.setOut(outputPrintStream);
+        try {
+            body.run();
+            return outputBuffer.toString();
+        } finally {
+            System.setOut(originalPrintStream);
+        }
     }
     
     //== Tests for the above ==

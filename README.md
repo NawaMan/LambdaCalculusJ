@@ -10,6 +10,10 @@ You can write something like:
     show("TRUE and FALSE", $(and, TRUE, FALSE));
 ```
 
+## Play Around
+
+- REPLIT: [`link`](https://replit.com/@NawaMan/TryLambdaCalculusJ#src/main/java/MainExamples.java)
+
 ## Main features
 
 - [`Lambda`](https://github.com/NawaMan/LambdaCalculusJ/blob/main/src/main/java/net/nawaman/lambdacalculusj/Lambda.java) type with
