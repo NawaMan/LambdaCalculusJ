@@ -177,8 +177,8 @@ public class LambdaCalculus {
     /**
      * Create a human friendly string representation of the lambda value.
      * 
-     * @param  value  the lambda
-     * @return        the string representation.
+     * @param  lambda  the lambda
+     * @return         the string representation.
      */
     public static String displayValue(Lambda lambda) {
         var valueString = (String)null;
