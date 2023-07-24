@@ -36,7 +36,7 @@ function build-test() {
 function build-full() {
     ensure-java-version
     set-version
-    ./mvnw clean install -Dgpg.signing.skip=true
+    ./mvnw clean install
 }
 
 function build-package() {
@@ -49,7 +49,7 @@ function build-package() {
     
     ensure-java-version
     set-version
-    ./mvnw clean install package deploy -Dnexus.staging.skip=true
+    ./mvnw clean install package deploy -Ppackage
 }
 
 function build-release() {
@@ -69,7 +69,7 @@ function build-release() {
     
     ensure-java-version
     set-version
-    ./mvnw clean install package deploy
+    ./mvnw clean install package deploy -Ppublish
     
     increment-build-number
     push-release-branch

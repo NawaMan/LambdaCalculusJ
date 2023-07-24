@@ -26,6 +26,7 @@ public class LambdaCalculus {
     /**
      * Create a lambda. This is used to convert Java lambda expression to Lambda Calculus lambda.
      * 
+     * @param  name    the name of the lambda.
      * @param  lambda  the input lambda.
      * @return         the lambda.
      */
@@ -57,6 +58,7 @@ public class LambdaCalculus {
     /**
      * Create a lambda. This is used to convert Java lambda expression to Lambda Calculus lambda.
      * 
+     * @param  name    the name of the lambda.
      * @param  lambda  the input lambda.
      * @return         the lambda.
      */
