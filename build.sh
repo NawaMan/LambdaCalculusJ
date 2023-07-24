@@ -71,7 +71,6 @@ function build-release() {
     set-version
     ./mvnw clean install package deploy
     
-    set -x
     increment-build-number
     push-release-branch
     push-release-tag
