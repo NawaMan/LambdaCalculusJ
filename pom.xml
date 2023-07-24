@@ -5,7 +5,7 @@
     
     <groupId>net.nawaman.lambdacalculusj</groupId>
     <artifactId>LambdaCalculusJ</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.3-SNAPSHOT</version>
     
     <name>LambdaCalculusJ</name>
     
@@ -18,6 +18,10 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        
+        <!--==== SKIP ====-->
+        <gpg.skip>true</gpg.skip>
+        <sona.skip>true</sona.skip>
         
         <!--==== SECRET ====-->
         <gpg.executable>/usr/bin/gpg</gpg.executable>
@@ -44,7 +48,8 @@
     
     <scm>
         <connection>scm:git:git://github.com/NawaMan/LambdaCalculusJ.git</connection>
-        <developerConnection>scm:git:ssh://github.com/NawaMan/LambdaCalculusJ.git</developerConnection>
+        <developerConnection>
+            scm:git:ssh://github.com/NawaMan/LambdaCalculusJ.git</developerConnection>
         <url>http://github.com/NawaMan/LambdaCalculusJ/tree/main</url>
     </scm>
     
@@ -158,18 +163,7 @@
                 </executions>
             </plugin>
             
-            <!-- PUBLISH -->
-            <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>${nexus-staging-plugin.version}</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <serverId>ossrh</serverId>
-                    <nexusUrl>${sona.site}/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                </configuration>
-            </plugin>
+            <!-- PACKAGE -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
@@ -184,10 +178,42 @@
                         <configuration>
                             <keyname>${gpg.keyname}</keyname>
                             <passphrase>${gpg.passphrase}</passphrase>
+                            <skip>${gpg.skip}</skip>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
+            
+            <!-- PUBLISH -->
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>${nexus-staging-plugin.version}</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>${sona.site}/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                    <skipNexusStagingDeployMojo>${sona.skip}</skipNexusStagingDeployMojo>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
+    
+    <profiles>
+        <profile>
+            <id>package</id>
+            <properties>
+                <gpg.skip>false</gpg.skip>
+                <sona.skip>true</sona.skip>
+            </properties>
+        </profile>
+        <profile>
+            <id>publish</id>
+            <properties>
+                <gpg.skip>false</gpg.skip>
+                <sona.skip>false</sona.skip>
+            </properties>
+        </profile>
+    </profiles>
 </project>

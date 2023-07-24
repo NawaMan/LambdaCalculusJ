@@ -23,3 +23,5 @@ gradle-app.setting
 .vscode/settings.json
 
 .settings/
+
+pom.xml.versionsBackup
