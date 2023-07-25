@@ -31,8 +31,11 @@ jobs:
     - id: install-secret-key
       name: Install gpg secret key
       run: |
-        cat <(echo -e "${{ secrets.OSSRH_GPG_SECRET_KEY }}") | gpg --batch --import
-        gpg --list-secret-keys --keyid-format LONG
+           cat <(echo -e "${{ secrets.OSSRH_GPG_SECRET_KEY }}") | gpg --batch --import
+           gpg --list-secret-keys --keyid-format LONG
+    - id: ss
+      name: ss
+      run: echo "${{ secrets.M2SETTINGS }}" > ~/.m2/settings.xml
     - name: Run build script
       run: >
            NAWAMAN_SIGNING_PASSWORD="${{ secrets.NAWAMAN_SIGNING_PASSWORD }}"
