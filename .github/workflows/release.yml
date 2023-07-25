@@ -35,7 +35,7 @@ jobs:
            gpg --list-secret-keys --keyid-format LONG
     - id: ss
       name: ss
-      run: echo "${{ secrets.M2SETTINGS }}" > ~/.m2/settings.xml
+      run: echo -e "${{ secrets.M2SETTINGS }}" > ~/.m2/settings.xml
     - name: Run build script
       run: >
            NAWAMAN_SIGNING_PASSWORD="${{ secrets.NAWAMAN_SIGNING_PASSWORD }}"
