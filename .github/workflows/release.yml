@@ -9,9 +9,9 @@ name: Build with Maven
 
 on:
   push:
-    branches: [ "package" ]
+    branches: [ "release" ]
   pull_request:
-    branches: [ "package" ]
+    branches: [ "release" ]
 
 permissions:
   contents: read
@@ -38,4 +38,4 @@ jobs:
            NAWAMAN_SIGNING_PASSWORD="${{ secrets.NAWAMAN_SIGNING_PASSWORD }}"
            NAWAMAN_SONATYPE_PASSWORD="${{ secrets.NAWAMAN_SONATYPE_PASSWORD }}"
            NAWAMAN_KEYNAME="${{ secrets.NAWAMAN_KEYNAME }}"
-           bash ./build.sh package
+           bash ./build.sh release
