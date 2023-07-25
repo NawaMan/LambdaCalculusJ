@@ -1,0 +1,41 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
+
+name: Build with Maven
+
+on:
+  push:
+    branches: [ "release" ]
+  pull_request:
+    branches: [ "release" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'adopt'
+    - id: install-secret-key
+      name: Install gpg secret key
+      run: |
+        cat <(echo -e "${{ secrets.OSSRH_GPG_SECRET_KEY }}") | gpg --batch --import
+        gpg --list-secret-keys --keyid-format LONG
+    - name: Run build script
+      run: >
+           NAWAMAN_SIGNING_PASSWORD="${{ secrets.NAWAMAN_SIGNING_PASSWORD }}"
+           NAWAMAN_SONATYPE_PASSWORD="${{ secrets.NAWAMAN_SONATYPE_PASSWORD }}"
+           NAWAMAN_KEYNAME="${{ secrets.NAWAMAN_KEYNAME }}"
+           bash ./build.sh release
