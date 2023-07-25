@@ -36,4 +36,5 @@ jobs:
     - name: Run build script
       run: >
            NAWAMAN_SIGNING_PASSWORD="${{ secrets.NAWAMAN_SIGNING_PASSWORD }}"
+           NAWAMAN_SONATYPE_PASSWORD="${{ secrets.NAWAMAN_SONATYPE_PASSWORD }}"
            bash ./build.sh package
