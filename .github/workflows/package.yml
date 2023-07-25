@@ -35,5 +35,4 @@ jobs:
         gpg --list-secret-keys --keyid-format LONG
         
     - name: Run build script
-      run: NAWAMAN_SIGNING_PASSWORD=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }} \
-           bash ./build.sh package
+      run: bash ./build.sh package
