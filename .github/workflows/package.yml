@@ -34,5 +34,6 @@ jobs:
         cat <(echo -e "${{ secrets.OSSRH_GPG_SECRET_KEY }}") | gpg --batch --import
         gpg --list-secret-keys --keyid-format LONG
     - name: Run build script
-      run: NAWAMAN_SIGNING_PASSWORD="${{ secrets.NAWAMAN_SIGNING_PASSWORD }}" \
+      run: >
+           NAWAMAN_SIGNING_PASSWORD="${{ secrets.NAWAMAN_SIGNING_PASSWORD }}"
            bash ./build.sh package
