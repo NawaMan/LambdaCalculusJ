@@ -35,4 +35,4 @@ jobs:
         gpg --list-secret-keys --keyid-format LONG
         
     - name: Run build script
-      run: bash ./build.sh package
+      run: ./build.sh package
