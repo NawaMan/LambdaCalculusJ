@@ -28,17 +28,22 @@ jobs:
       with:
         java-version: '11'
         distribution: 'adopt'
-    - id: install-secret-key
+    - id:   install-secret-key
       name: Install gpg secret key
-      run: |
-           cat <(echo -e "${{ secrets.OSSRH_GPG_SECRET_KEY }}") | gpg --batch --import
-           gpg --list-secret-keys --keyid-format LONG
-    - id: ss
-      name: ss
-      run: echo -e "${{ secrets.M2SETTINGS }}" > ~/.m2/settings.xml
+      run:  |
+            cat <(echo -e "${{ secrets.OSSRH_GPG_SECRET_KEY }}") | gpg --batch --import
+            gpg --list-secret-keys --keyid-format LONG
+    - id:   setup-maven-settings
+      name: Setup MAVEN Settings
+      run:  echo -e "${{ secrets.M2SETTINGS }}" > ~/.m2/settings.xml
+    - id:   setup-git-hub
+      name: Setup GitHub
+      run:  |
+            git config --global user.name "Nawa Manusitthipol"
+            git config --global user.email "nawa@nawaman.net"
     - name: Run build script
-      run: >
-           NAWAMAN_SIGNING_PASSWORD="${{ secrets.NAWAMAN_SIGNING_PASSWORD }}"
-           NAWAMAN_SONATYPE_PASSWORD="${{ secrets.NAWAMAN_SONATYPE_PASSWORD }}"
-           NAWAMAN_KEYNAME="${{ secrets.NAWAMAN_KEYNAME }}"
-           bash ./build.sh release
+      run:  >
+            NAWAMAN_SIGNING_PASSWORD="${{ secrets.NAWAMAN_SIGNING_PASSWORD }}"
+            NAWAMAN_SONATYPE_PASSWORD="${{ secrets.NAWAMAN_SONATYPE_PASSWORD }}"
+            NAWAMAN_KEYNAME="${{ secrets.NAWAMAN_KEYNAME }}"
+            bash ./build.sh release
