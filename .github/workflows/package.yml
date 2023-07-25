@@ -28,5 +28,10 @@ jobs:
       with:
         java-version: '11'
         distribution: 'adopt'
-    - name: Run build script
-      run: bash ./build.sh package
+    - id: install-secret-key
+      name: Install gpg secret key
+      run: |
+        cat <(echo -e "${{ secrets.OSSRH_GPG_SECRET_KEY }}") | gpg --batch --import
+        gpg --list-secret-keys --keyid-format LONG
+#    - name: Run build script
+#      run: bash ./build.sh package
