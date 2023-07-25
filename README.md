@@ -44,4 +44,7 @@ You can write something like:
 
 Post question [here](https://github.com/NawaMan/LambdaCalculusJ/issues).
 
+## Buy Me A Coffee
+
+Like this? Consider [buy me a coffee](https://buymeacoffee.com/NawaMan).
 
