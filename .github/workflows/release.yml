@@ -42,6 +42,8 @@ jobs:
             git config --global user.name "Nawa Manusitthipol"
             git config --global user.email "nawa@nawaman.net"
     - name: Run build script
+      env:
+            GITHUB_TOKEN: ${{ secrets.GH_PUSH }}
       run:  >
             NAWAMAN_SIGNING_PASSWORD="${{ secrets.NAWAMAN_SIGNING_PASSWORD }}"
             NAWAMAN_SONATYPE_PASSWORD="${{ secrets.NAWAMAN_SONATYPE_PASSWORD }}"
