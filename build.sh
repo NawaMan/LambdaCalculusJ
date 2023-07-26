@@ -49,7 +49,11 @@ function build-package() {
     
     ensure-java-version
     set-version
-    ./mvnw clean install package deploy -Ppackage
+    ./mvnw \
+        --no-transfer-progress \
+        --batch-mode           \
+        -Dgpg.passphrase=$NAWAMAN_SIGNING_PASSWORD \
+        clean install package deploy -Ppackage
 }
 
 function build-release() {
@@ -69,7 +73,11 @@ function build-release() {
     
     ensure-java-version
     set-version
-    ./mvnw clean install package deploy -Ppublish
+    ./mvnw \
+        --no-transfer-progress \
+        --batch-mode           \
+        -Dgpg.passphrase=$NAWAMAN_SIGNING_PASSWORD \
+        clean install package deploy -Ppublish
     
     increment-build-number
     push-release-branch
