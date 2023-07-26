@@ -97,7 +97,7 @@ function show-help() {
     echo "All command requires the follow files"
     echo "  project-version-number: Contains the major and minor version. For example: 2.0 for '2.0.6' version."
     echo "  project-build-number  : Contains the build number. For example: 6 for '2.0.6' version."
-    echo "  key-var-name          : Contains the environmental variable name that holds the key name, e.g., DEFAULTJ_KEYNAME."
+    echo "  key-var-name          : Contains the environmental variable name that holds the key name, e.g., NAWAMAN_KEYNAME."
     echo ""
     echo "Release comand requires the following environmental variable."
     echo "  NAWAMAN_SIGNING_PASSWORD : The password for the signing key. Make sure the user name is in '~/.m2/settings.xml'".

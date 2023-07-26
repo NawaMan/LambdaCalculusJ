@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -48,11 +49,14 @@
     
     <scm>
         <connection>scm:git:git://github.com/NawaMan/LambdaCalculusJ.git</connection>
-        <developerConnection>
-            scm:git:ssh://github.com/NawaMan/LambdaCalculusJ.git</developerConnection>
+        <developerConnection>scm:git:ssh://github.com/NawaMan/LambdaCalculusJ.git</developerConnection>
         <url>http://github.com/NawaMan/LambdaCalculusJ/tree/main</url>
     </scm>
     
+    <organization>
+        <name>nawaman.net</name>
+        <url>https://nawaman.net</url>
+    </organization>
     <licenses>
         <license>
             <name>MIT License</name>
@@ -65,8 +69,8 @@
             <id>NawaMan</id>
             <name>Nawapunth Manusitthipol</name>
             <email>nawa@nawaman.net</email>
-            <organization>NawaMan</organization>
-            <organizationUrl>http://nawaman.net</organizationUrl>
+            <organization>nawaman.net</organization>
+            <organizationUrl>https://nawaman.net</organizationUrl>
         </developer>
     </developers>
     
