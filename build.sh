@@ -47,7 +47,10 @@ function build-test() {
 function build-full() {
     ensure-java-version
     set-version
-    ./mvnw clean install
+    ./mvnw \
+        --no-transfer-progress    \
+        --batch-mode              \
+        clean install
 }
 
 function build-package() {
