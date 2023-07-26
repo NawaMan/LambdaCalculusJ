@@ -24,13 +24,24 @@ function main() {
 function build-quick() {
     ensure-java-version
     set-version
-    ./mvnw clean install -Dmaven.test.skip=true -Dmaven.javadoc.skip=true -Dmaven.source.skip=true
+    ./mvnw \
+        --no-transfer-progress    \
+        --batch-mode              \
+        -Dmaven.test.skip=true    \
+        -Dmaven.javadoc.skip=true \
+        -Dmaven.source.skip=true  \
+        clean install
 }
 
 function build-test() {
     ensure-java-version
     set-version
-    ./mvnw clean compile test -Dmaven.javadoc.skip=true -Dmaven.source.skip=true
+    ./mvnw \
+        --no-transfer-progress    \
+        --batch-mode              \
+        -Dmaven.source.skip=true  \
+        -Dmaven.javadoc.skip=true \
+        clean compile test  
 }
 
 function build-full() {
