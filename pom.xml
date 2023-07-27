@@ -11,7 +11,9 @@
     <name>LambdaCalculusJ</name>
     
     <url>https://github.com/NawaMan/LambdaCalculusJ</url>
-    <description>Playground for LambdaCalculus in Java.</description>
+    <description>
+        Playground for LambdaCalculus in Java.
+    </description>
     
     <properties>
         <!--==== JAVA+SOURCE ====-->
@@ -37,6 +39,7 @@
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
         <maven-gpg-plugin.version>3.1.0</maven-gpg-plugin.version>
         <maven-javadoc-plugin.version>3.5.0</maven-javadoc-plugin.version>
+        <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
         <nexus-staging-plugin.version>1.6.8</nexus-staging-plugin.version>
         
@@ -57,6 +60,7 @@
         <name>nawaman.net</name>
         <url>https://nawaman.net</url>
     </organization>
+    
     <licenses>
         <license>
             <name>MIT License</name>
@@ -114,6 +118,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven-compiler-plugin.version}</version>
                 <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                     <compilerArgs>
                         <arg>-parameters</arg>
                     </compilerArgs>
@@ -131,6 +137,11 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>${maven-resources-plugin.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -196,7 +207,7 @@
                 <extensions>true</extensions>
                 <configuration>
                     <serverId>ossrh</serverId>
-                    <nexusUrl>${sona.site}/</nexusUrl>
+                    <nexusUrl>${sona.site}</nexusUrl>
                     <autoReleaseAfterClose>true</autoReleaseAfterClose>
                     <skipNexusStagingDeployMojo>${sona.skip}</skipNexusStagingDeployMojo>
                 </configuration>
