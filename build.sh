@@ -31,6 +31,9 @@ function build-quick() {
         -Dmaven.javadoc.skip=true \
         -Dmaven.source.skip=true  \
         clean install
+        
+    mkdir -p dist
+    mv $(find target -iname 'LambdaCalculusJ-*.*.*-SNAPSHOT.jar' | head -n 1) dist/LambdaCalculusJ.jar
 }
 
 function build-test() {
@@ -51,6 +54,7 @@ function build-full() {
         --no-transfer-progress    \
         --batch-mode              \
         clean install
+        
     mkdir -p dist
     mv $(find target -iname 'LambdaCalculusJ-*.*.*-SNAPSHOT.jar' | head -n 1) dist/LambdaCalculusJ.jar
 }

@@ -12,7 +12,19 @@ You can write something like:
 
 ## Play Around
 
+### Local -- Jupyter Notebook
+You quickly try this with Jupyter Notebook.
+Simply run:
+
+```shell
+start-notebook.sh
+```
+
+### REPLIT
+Try out on REPLIT.
+
 - REPLIT: [`link`](https://replit.com/@NawaMan/TryLambdaCalculusJ#src/main/java/MainExamples.java)
+
 
 ## Main features
 
@@ -39,6 +51,7 @@ You can write something like:
 - [Data structure examples](https://github.com/NawaMan/LambdaCalculusJ/blob/main/src/test/java/net/nawaman/lambdacalculusj/examples/DataStructureExamples.java)
 - [Loop examples](https://github.com/NawaMan/LambdaCalculusJ/blob/main/src/test/java/net/nawaman/lambdacalculusj/examples/LoopExamples.java)
 - [Recursive examples](https://github.com/NawaMan/LambdaCalculusJ/blob/main/src/test/java/net/nawaman/lambdacalculusj/examples/RecursiveExamples.java)
+
 
 ## Need help?
 

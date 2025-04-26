@@ -6,8 +6,7 @@ services:
     ports:
       - "8888:8888"
     container_name: jupyter-java23
-    environment:
-      - JUPYTER_TOKEN=java23
+    command: start-notebook.sh --NotebookApp.token='' --NotebookApp.password='' --NotebookApp.notebook_dir=/home/jovyan/notebooks
     volumes:
       - ./notebooks:/home/jovyan/notebooks
       - ./dist/LambdaCalculusJ.jar:/home/jovyan/java/LambdaCalculusJ.jar
