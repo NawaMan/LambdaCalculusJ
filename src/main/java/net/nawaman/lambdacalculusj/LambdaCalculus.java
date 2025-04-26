@@ -186,7 +186,7 @@ public class LambdaCalculus {
         var valueString = (String)null;
         try {
             valueString = lambda.evaluate().toString();
-            if (valueString.matches("[a-zA-Z0-9$_.]+\\$\\$Lambda\\$[0-9]+/0x[0-9a-fA-F]+@[0-9a-fA-F]+"))  {
+            if (valueString.matches("[a-zA-Z0-9$_.]+\\$\\$Lambda(\\$[0-9]+)?/0x[0-9a-fA-F]+@[0-9a-fA-F]+"))  {
                 valueString = lambda.toString();
             }
             

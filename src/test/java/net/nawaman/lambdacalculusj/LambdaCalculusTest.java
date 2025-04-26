@@ -80,7 +80,6 @@ class LambdaCalculusTest {
     void testApply1() {
         var theLambda = lazy(lambda(true), a);
         assertAsString("true(a)", theLambda);
-        assertAsString("\\E.*\\Q$$Lambda$\\E[0-9]+\\Q/0x\\E[0-9a-f]+@[0-9a-f]+\\Q", theLambda.evaluate());
     }
     
     @Test

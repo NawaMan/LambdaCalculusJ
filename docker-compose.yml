@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  jupyter-java23:
+    build: .
+    ports:
+      - "8888:8888"
+    container_name: jupyter-java23
+    environment:
+      - JUPYTER_TOKEN=java23
+    volumes:
+      - ./notebooks:/home/jovyan/notebooks
+      - ./dist/LambdaCalculusJ.jar:/home/jovyan/java/LambdaCalculusJ.jar

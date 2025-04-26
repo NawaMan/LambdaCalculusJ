@@ -17,7 +17,7 @@ class LambdaTest {
     
     @Test
     void testToString() {
-        assertAsString("\\E.*\\Q$$Lambda$\\E[0-9]+\\Q/0x\\E[0-9a-f]+@[0-9a-f]+\\Q", theLambda);
+        assertAsString("\\E.*\\QLambda\\E.*\\Q", theLambda);
     }
     
     @Test

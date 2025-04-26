@@ -25,3 +25,5 @@ gradle-app.setting
 .settings/
 
 pom.xml.versionsBackup
+
+dist/

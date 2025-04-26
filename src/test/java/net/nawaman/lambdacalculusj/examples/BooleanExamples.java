@@ -101,4 +101,21 @@ public class BooleanExamples {
         assertAsString("TRUE",  $(booleanEqual, FALSE, FALSE));
     }
     
+    @Test
+    void testXor() {
+        // XOR implemented as λa.λb.a(bFalseTrue)b
+        // This is more elegant and uses fewer operations
+        var xor = lambda("xor", p -> q -> $(p, $(q, FALSE, TRUE), q));
+        
+        assertAsString("xor(TRUE)(TRUE)",   lazy(xor, TRUE,  TRUE));
+        assertAsString("xor(TRUE)(FALSE)",  lazy(xor, TRUE,  FALSE));
+        assertAsString("xor(FALSE)(TRUE)",  lazy(xor, FALSE, TRUE));
+        assertAsString("xor(FALSE)(FALSE)", lazy(xor, FALSE, FALSE));
+        
+        assertAsString("FALSE", $(xor, TRUE,  TRUE));
+        assertAsString("TRUE",  $(xor, TRUE,  FALSE));
+        assertAsString("TRUE",  $(xor, FALSE, TRUE));
+        assertAsString("FALSE", $(xor, FALSE, FALSE));
+    }
+    
 }
